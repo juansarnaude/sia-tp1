@@ -2,9 +2,7 @@ from models.Sokoban import Sokoban
 
 def read_sokoban_level(file):
     sokoban_map = file.readlines()
-    height = len(sokoban_map)
-    width = max(len(row.rstrip()) for row in sokoban_map)
-    sokoban = Sokoban(width, height)
+    sokoban = Sokoban()
 
     for i, line in enumerate(sokoban_map):
         new_row = []
