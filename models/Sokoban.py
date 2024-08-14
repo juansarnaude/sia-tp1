@@ -60,8 +60,10 @@ class Sokoban:
             #Changes position of box and its instance
             self.boxes.discard(Coordinates(new_x,new_y))
             self.boxes.add(Coordinates(box_new_x,box_new_y))
+            if self.map[new_y][new_x] == '.':
+                self.check_win(-1)
             if self.map[box_new_y][box_new_x] == '.':
-                self.check_win()
+                self.check_win(1)
             self.map[box_new_y][box_new_x] = '$'
 
         if Coordinates(self.player.x, self.player.y) in self.flags:
@@ -72,10 +74,11 @@ class Sokoban:
         self.player.move(step_x, step_y)
         self.map[self.player.y][self.player.x] = '@'
 
-    def check_win(self):
-        self.boxes_placed = self.boxes_placed + 1
+    def check_win(self, to_add):
+        self.boxes_placed = self.boxes_placed + to_add
         if self.boxes_needed == self.boxes_placed:
             print('WIN')
+            exit(0)
 
 
     def display_map(self):
