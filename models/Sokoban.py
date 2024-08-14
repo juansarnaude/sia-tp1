@@ -1,4 +1,6 @@
 from models.Coordinates import Coordinates
+from models.Direction import Direction, get_direction_value
+
 
 class Sokoban:
     def __init__(self, width, height):
@@ -31,43 +33,28 @@ class Sokoban:
     #VERTICAL COORDINATES ARE OPPOSITE OF WHAT WE USUALLY USE SO
     #UP IS +(0,-1), DOWN IS +(1,0)
     def move(self, direction):
-        #UP
-        if direction == 'u':
-            if self.map[self.player.y][self.player.x-1] == '#':
-                return
-            self.map[self.player.y][self.player.x] = ' '
-            self.player.move(0, -1)
-            self.map[self.player.y][self.player.x] = '@'
+        (step_x, step_y) = get_direction_value(direction)
+
+        new_x = self.player.x + step_x
+        new_y = self.player.y + step_y
 
 
-        #DOWN
-        elif direction == 'd':
-            if self.map[self.player.y][self.player.x-1] == '#':
-                return
-            self.map[self.player.y][self.player.x] = ' '
-            self.player.move(0, 1)
-            self.map[self.player.y][self.player.x] = '@'
-
-
-        #RIGHT
-        elif direction == 'r':
-            if self.map[self.player.y+1][self.player.x] == '#':
-                return
-            self.map[self.player.y][self.player.x] = ' '
-            self.player.move(1, 0)
-            self.map[self.player.y][self.player.x] = '@'
-
-
-        #LEFT
-        elif direction == 'l':
-            if self.map[self.player.y-1][self.player.x] == '#':
-                return
-            self.map[self.player.y][self.player.x] = ' '
-            self.player.move(-1, 0)
-            self.map[self.player.y][self.player.x] = '@'
-
-        else:
+        if self.map[new_y][new_x] == '#':
             return
+
+        if self.map[new_y][new_x] == '$':
+            box_new_x = new_x + step_x
+            box_new_y = new_y + step_y
+
+            if self.map[box_new_y][box_new_x] == '#' or self.map[box_new_y][box_new_x] == '$':
+                return
+
+            self.map[box_new_y][box_new_x] = '$'
+            self.map[new_y][new_x] = ' '
+
+        self.map[self.player.y][self.player.x] = ' '
+        self.player.move(step_x, step_y)
+        self.map[self.player.y][self.player.x] = '@'
 
 
     def display_map(self):
