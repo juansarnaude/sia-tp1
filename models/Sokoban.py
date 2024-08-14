@@ -1,7 +1,6 @@
 from models.Coordinates import Coordinates
 from models.Direction import Direction, get_direction_value
 
-
 class Sokoban:
     def __init__(self, width, height):
         self.map = [[' ' for _ in range(width)] for _ in range(height)]
@@ -56,12 +55,16 @@ class Sokoban:
             if self.map[box_new_y][box_new_x] == '#' or self.map[box_new_y][box_new_x] == '$':
                 return
 
-            self.map[box_new_y][box_new_x] = '$'
+            #Changes position of box and its instance
             self.boxes.discard(Coordinates(new_x,new_y))
-            self.boxes.add(Coordinates(box_new_y,box_new_x))
-            self.map[new_y][new_x] = ' '
+            self.boxes.add(Coordinates(box_new_x,box_new_y))
+            self.map[box_new_y][box_new_x] = '$'
 
-        self.map[self.player.y][self.player.x] = ' '
+        if Coordinates(self.player.x, self.player.y) in self.flags:
+            self.map[self.player.y][self.player.x] = '.'
+        else:
+            self.map[self.player.y][self.player.x] = ' '
+
         self.player.move(step_x, step_y)
         self.map[self.player.y][self.player.x] = '@'
 
