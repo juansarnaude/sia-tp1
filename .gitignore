@@ -1,5 +1,8 @@
 # IntelliJ IDEA specific files
 .idea/
 
+# Anaconda files
+.conda
+
 #Python files
 __pycache__/
