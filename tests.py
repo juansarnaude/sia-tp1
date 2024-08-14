@@ -31,3 +31,20 @@ def test_movement():
         sokoban.move(Direction.UP)
         sokoban.move(Direction.UP)
         sokoban.display_map()
+
+
+def test_win():
+    with open(f"{sys.argv[1]}", "r") as file:
+        sokoban = read_sokoban_level(file)
+        sokoban.move(Direction.RIGHT)
+        sokoban.move(Direction.RIGHT)
+        sokoban.move(Direction.RIGHT)
+        sokoban.move(Direction.RIGHT)
+        sokoban.move(Direction.RIGHT)
+        sokoban.move(Direction.RIGHT)
+        sokoban.move(Direction.RIGHT)
+        sokoban.move(Direction.RIGHT)
+        sokoban.move(Direction.RIGHT)
+        sokoban.move(Direction.RIGHT)
+        sokoban.move(Direction.RIGHT)
+        sokoban.display_map()

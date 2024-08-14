@@ -2,8 +2,8 @@ from models.Sokoban import Sokoban
 
 def read_sokoban_level(file):
     sokoban_map = file.readlines()
-    width = len(sokoban_map)
-    height = max(len(row.rstrip()) for row in sokoban_map)
+    height = len(sokoban_map)
+    width = max(len(row.rstrip()) for row in sokoban_map)
     sokoban = Sokoban(width, height)
 
     for i, line in enumerate(sokoban_map):
