@@ -1,10 +1,14 @@
 from enum import Enum
 
+#VERTICAL COORDINATES ARE OPPOSITE OF WHAT WE USUALLY USE SO
+#UP IS +(0,-1), DOWN IS +(1,0)
+
 class Direction(Enum):
     UP = 'u'
     DOWN = 'd'
     RIGHT = 'r'
     LEFT = 'l'
+
 
 def get_direction_value(value):
     if value == Direction.UP:
