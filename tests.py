@@ -21,3 +21,13 @@ def test_equals():
     print("--------------------")
 
     print(sokoban1.__eq__(sokoban2))
+
+def test_movement():
+    with open(f"{sys.argv[1]}", "r") as file:
+        sokoban = read_sokoban_level(file)
+        sokoban.move(Direction.RIGHT)
+        sokoban.move(Direction.UP)
+        sokoban.move(Direction.UP)
+        sokoban.move(Direction.UP)
+        sokoban.move(Direction.UP)
+        sokoban.display_map()
