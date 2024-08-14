@@ -13,6 +13,15 @@ class Sokoban:
         self.boxes = set()
         self.player = Coordinates(-1,-1)
 
+
+    def __eq__(self, other):
+        if not isinstance(other, Sokoban):
+            return False
+        return self.__hash__() == other.__hash__()
+
+    def __hash__(self):
+        return hash((self.player, frozenset(self.boxes)))
+
     def init_player(self, x, y):
         self.player.__set_coords__(x, y)
         self.map[y][x] = '@'
@@ -34,10 +43,8 @@ class Sokoban:
     #UP IS +(0,-1), DOWN IS +(1,0)
     def move(self, direction):
         (step_x, step_y) = get_direction_value(direction)
-
         new_x = self.player.x + step_x
         new_y = self.player.y + step_y
-
 
         if self.map[new_y][new_x] == '#':
             return
@@ -50,11 +57,15 @@ class Sokoban:
                 return
 
             self.map[box_new_y][box_new_x] = '$'
+            self.boxes.discard(Coordinates(new_x,new_y))
+            self.boxes.add(Coordinates(box_new_y,box_new_x))
             self.map[new_y][new_x] = ' '
 
         self.map[self.player.y][self.player.x] = ' '
         self.player.move(step_x, step_y)
         self.map[self.player.y][self.player.x] = '@'
+
+
 
 
     def display_map(self):
