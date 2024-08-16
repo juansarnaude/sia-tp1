@@ -3,14 +3,15 @@ from time import sleep
 from models.Sokoban import display_map, find_next_valid_states
 
 
-def dfs(sokoban_map, sokoban_state):
+def bfs(sokoban_map, sokoban_state):
     #1. Define frontier and explored set
     frontier_states = [sokoban_state]
     explored_states = set()
 
     #2. loop
     while len(frontier_states) > 0 :
-        current_state = frontier_states.pop()
+        current_state = frontier_states[0]
+        frontier_states = frontier_states[1:]
 
         if current_state.check_win(sokoban_map):
             display_map(sokoban_map, current_state)
@@ -25,5 +26,3 @@ def dfs(sokoban_map, sokoban_state):
         for next_valid_states in find_next_valid_states(sokoban_map, current_state):
             if next_valid_states not in explored_states:
                 frontier_states.append(next_valid_states)
-        
-        
