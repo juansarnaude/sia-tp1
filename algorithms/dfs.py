@@ -1,29 +1,26 @@
-from time import sleep
+from collections import deque
+from models.Node import Node 
+from models.Direction import Direction
+from models.State import State
 
-from models.Sokoban import display_map, find_next_valid_states
+def dfs(initial_state, map):
+    frontier = deque([Node(initial_state)])
+    explored = set()
 
+    while frontier:
+        node = frontier.pop()
 
-def dfs(sokoban_map, sokoban_state):
-    #1. Define frontier and explored set
-    frontier_states = [sokoban_state]
-    explored_states = set()
+        # Check if we have reached the goal state
+        if node.state.is_goal_state(map):
+            return node.path()
 
-    #2. loop
-    while len(frontier_states) > 0 :
-        current_state = frontier_states.pop()
+        explored.add(node.state)
 
-        if current_state.check_win(sokoban_map):
-            display_map(sokoban_map, current_state)
-            print(current_state.get_steps())
-            print("Ganastes")
-            return
-
-        # We do this to not revisit the state when we use states
-        explored_states.add(current_state)
-
-        # Dont load into the frontier already visited ones
-        for next_valid_states in find_next_valid_states(sokoban_map, current_state):
-            if next_valid_states not in explored_states:
-                frontier_states.append(next_valid_states)
-        
-        
+        # Explore neighbors
+        for direction in Direction:
+            child_state = node.state.move(direction, map)
+            if child_state and child_state not in explored:
+                frontier.append(Node(child_state, node, direction))
+    
+    # Return None if no solution is found
+    return None
