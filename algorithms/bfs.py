@@ -12,7 +12,7 @@ def bfs(initial_state, map):
 
         # Check if we have reached the goal state
         if node.state.is_goal_state(map):
-            return node, node.path()
+            return node, len(explored), len(frontier)
 
         explored.add(node.state)
 

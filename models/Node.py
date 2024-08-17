@@ -13,13 +13,6 @@ class Node:
         if self.parent:
             return f"{self.parent} {self.action.value}"
         return f"{self.action}"
-
-    def path(self):
-        node, path_back = self, []
-        while node:
-            path_back.append(node)
-            node = node.parent
-        return list(reversed(path_back))
     
     def instructions(self):
         print("Instruction for resolution:")

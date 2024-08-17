@@ -9,9 +9,6 @@ class Map:
 
         self.load_map(file)
 
-        for row in self.grid:
-            print(row)
-
     def load_map(self, file):
         for y, line in enumerate(file):
             row = []
