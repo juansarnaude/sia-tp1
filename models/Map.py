@@ -39,3 +39,11 @@ class Map:
 
     def __repr__(self):
         return f"Map(player_start={self.player_start}, goals={self.goals}, boxes={self.boxes})"
+
+    def print_grid(self):
+        map_string = ''
+        for row in self.grid:
+            map_string += ''.join(row)
+            map_string += '\n'
+
+        return map_string

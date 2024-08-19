@@ -11,8 +11,8 @@ from models.Node import Node
 
 
 with open(f"{sys.argv[1]}", "r") as file:
-    map = Map(file) # We load the map when creating the instance
-    initial_state = State(map.player_start, map.boxes)
+    sokoban_map = Map(file) # We load the map when creating the instance
+    initial_state = State(sokoban_map.player_start, sokoban_map.boxes)
     data = {}
 
     with open(f"configs/config.json", 'r') as config_file:
@@ -21,11 +21,12 @@ with open(f"{sys.argv[1]}", "r") as file:
         if(config["report"] == "full"):
             start_time = time.time()
 
-        last_node, explored_nodes_count, frontier_node_counts = bfs(initial_state, map)
+        last_node, explored_nodes_count, frontier_node_counts = bfs(initial_state, sokoban_map)
 
         if(config["report"] == "full" and last_node):
             end_time = time.time()
             elapsed_time = end_time - start_time
+            data["initial_map"] = sokoban_map.print_grid()
             data["result"] = "success"
             data["execution_time"] = f"elapsed_time: {elapsed_time:.5f} s"
             data["explored_nodes_count"] = explored_nodes_count
@@ -38,5 +39,5 @@ with open(f"{sys.argv[1]}", "r") as file:
         formatted_time = current_time.strftime("%Y-%m-%d_%H-%M-%S")
 
         with open(f"results/result{formatted_time}", 'w') as result_file:
-            json.dump(data, result_file, indent=4)
+            json.dump(data, result_file, indent=5)
 
