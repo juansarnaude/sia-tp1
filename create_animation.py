@@ -49,7 +49,7 @@ def sokoban_map_update(soko_map, player, direction):
 
     soko_map[player[0]][player[1]] = ' '
 
-    player = (player[0] + step[0], player[1] + step[1])
+    player = (player[0] + step[0], player[1]+step[1])
 
     if soko_map[player[0]][player[1]] == '$':
         soko_map[player[0]+step[0]][player[1]+step[1]] = '$'
@@ -57,6 +57,7 @@ def sokoban_map_update(soko_map, player, direction):
     soko_map[player[0]][player[1]] = '@'
 
     return soko_map, player
+
 
 
 
@@ -72,7 +73,7 @@ with open(f"{sys.argv[1]}", "r") as file:
     #Get the initial map
     sokoban_map = sokoban_map_ini.split('\n')
     sokoban_map = [list(row) for row in sokoban_map]
-    player_pos = 0,0
+    player_pos = (0,0)
 
     #Clean output images directories
     clean_directories()
@@ -81,7 +82,7 @@ with open(f"{sys.argv[1]}", "r") as file:
     for y, row in enumerate(sokoban_map):
         for x, char in enumerate(row):
             if char == '@':
-                player_pos = x,y
+                player_pos = (y,x)
 
     #Set the image sizes
     grid_width = max(len(row) for row in sokoban_map)
@@ -108,7 +109,18 @@ with open(f"{sys.argv[1]}", "r") as file:
         soko_image.save(image_str)
         images_file.append(image_str)
 
+        for y, row in enumerate(sokoban_map):
+            for x, char in enumerate(row):
+                if char == '@':
+                    print(image_counter, x, y)
+
         sokoban_map, player_pos = sokoban_map_update(sokoban_map, player_pos, movement)
+
+        for y, row in enumerate(sokoban_map):
+            for x, char in enumerate(row):
+                if char == '@':
+                    print(image_counter, x, y)
+
 
 
     #Make the GIF
