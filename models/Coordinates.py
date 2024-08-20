@@ -25,3 +25,4 @@ class Coordinates:
             return Coordinates(self.x + 1, self.y)
         return self
 
+

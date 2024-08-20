@@ -38,6 +38,8 @@ with open(f"{sys.argv[1]}", "r") as file:
             end_time = time.time()
             elapsed_time = end_time - start_time
             data["initial_map"] = sokoban_map.print_grid()
+            data["algorithm"] = config["algorithm"]
+            data["heuristic"] = config["heuristics"]
             data["result"] = "success"
             data["execution_time"] = f"elapsed_time: {elapsed_time:.5f} s"
             data["explored_nodes_count"] = explored_nodes_count

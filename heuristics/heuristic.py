@@ -3,7 +3,7 @@ from heuristics.box_stuck import box_stuck
 
 class Heuristic:
     def __init__(self, heuristics_list, map):
-        if heuristics_list.contains("box_stuck"):
+        if "box_stuck" in heuristics_list:
             self.box_stuck = 1
             box_stuck(map= map)
 
