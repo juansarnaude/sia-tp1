@@ -1,3 +1,4 @@
+import numpy as np
 from models.Direction import Direction
 
 class Coordinates:
@@ -24,5 +25,11 @@ class Coordinates:
         elif direction == Direction.RIGHT:
             return Coordinates(self.x + 1, self.y)
         return self
+    
+    def to_array(self):
+        return [self.x, self.y]
+    
+    def distance_to(self, other: 'Coordinates') -> float:
+        return np.linalg.norm(np.array(self.to_array()) - np.array(other.to_array()))
 
 

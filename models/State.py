@@ -1,7 +1,12 @@
+from models.Coordinates import Coordinates
+from typing import FrozenSet
+
 class State:
-    def __init__(self, player, boxes):
+    # boxes = 
+
+    def __init__(self, player, boxes: Coordinates):
         self.player = player
-        self.boxes = frozenset(boxes)
+        self.boxes: FrozenSet[Coordinates] = frozenset(boxes)
 
     def __eq__(self, other):
         return self.player == other.player and self.boxes == other.boxes

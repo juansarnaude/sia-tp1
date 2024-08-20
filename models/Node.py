@@ -1,7 +1,8 @@
 from models.Direction import Direction
+from models.State import State
 
 class Node:
-    def __init__(self, state, parent=None, action: Direction=None, cost=0):
+    def __init__(self, state: State, parent=None, action: Direction=None, cost=0):
         self.state = state
         self.parent = parent
         self.action = action
@@ -13,7 +14,7 @@ class Node:
         if self.parent:
             return f"{self.parent}{self.action.value}"
         if self.action:
-            return f"{self.action}"
+            return f"{self.action.value}"
         else:
             return ''
 

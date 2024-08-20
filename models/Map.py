@@ -1,10 +1,11 @@
 from models.Coordinates import Coordinates
+from typing import Set
 
 class Map:
     def __init__(self, file):
         self.grid = []
         self.player_start = None
-        self.goals = set()
+        self.goals: Set[Coordinates] = set()
         self.boxes = set()
 
         self.load_map(file)
