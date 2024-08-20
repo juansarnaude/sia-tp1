@@ -7,15 +7,11 @@ from algorithms.a_star import a_star
 from algorithms.bfs import bfs
 from algorithms.dfs import dfs
 from heuristics.box_stuck import box_stuck
+from heuristics.heuristic import Heuristic
 from models.Map import Map
 from models.State import State
 from models.Node import Node
 
-def load_heuristics(heuristics_list, map):
-    if heuristics_list == "box_stuck":
-        return lambda node: box_stuck(node, map)
-    else:
-        raise ValueError(f"Unknown heuristic: {heuristics_list}")
 
 with open(f"{sys.argv[1]}", "r") as file:
     sokoban_map = Map(file) # We load the map when creating the instance
@@ -34,7 +30,7 @@ with open(f"{sys.argv[1]}", "r") as file:
         elif config["algorithm"] == "dfs":
             last_node, explored_nodes_count, frontier_node_counts = bfs(initial_state, sokoban_map)
         elif config["algorithm"] == "a_star":
-            heuristic = load_heuristics(config["heuristics"], sokoban_map)
+            heuristic = Heuristic(config["heuristics"], sokoban_map)
             last_node, explored_nodes_count, frontier_node_counts = a_star(initial_state, sokoban_map, heuristic)
 
 

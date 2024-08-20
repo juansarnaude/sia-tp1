@@ -2,5 +2,5 @@
     "report":"full",
     "showMap":false,
     "algorithm": "bfs",
-    "heuristics": "box_stuck"
+    "heuristics": ["box_stuck"]
 }

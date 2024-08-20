@@ -10,7 +10,7 @@ def a_star(initial_state, map, heuristic):
     explored = set()
 
     node = Node(initial_state).set_cost(0)
-    heuristic(node)
+    heuristic.apply(node)
     frontier.put((node.cost, node))
 
 
@@ -28,7 +28,7 @@ def a_star(initial_state, map, heuristic):
                 # G(n)
                 new_node = Node(child_state, node, direction, cost=node.cost+1)
                 # H(n)
-                heuristic(new_node)
+                heuristic.apply(new_node)
                 frontier.put((new_node.cost, new_node))
 
     return None
