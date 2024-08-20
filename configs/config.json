@@ -1,6 +1,6 @@
 {
     "report":"full",
     "showMap":false,
-    "algorithm": "bfs",
+    "algorithm": "dfs",
     "heuristics": ["box_stuck"]
 }
