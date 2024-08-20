@@ -1,6 +1,6 @@
 {
     "report":"full",
     "showMap":false,
-    "algorithm": "local_greedy",
+    "algorithm": "bfs",
     "heuristics": ["box_stuck", "boxes_in_goals"]
 }
