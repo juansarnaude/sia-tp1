@@ -1,4 +1,6 @@
 {
     "report":"full",
-    "showMap":false
+    "showMap":false,
+    "algorithm": "bfs",
+    "heuristics": "box_stuck"
 }

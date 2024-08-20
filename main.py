@@ -3,12 +3,19 @@ import json
 import time
 from datetime import datetime
 
+from algorithms.a_star import a_star
 from algorithms.bfs import bfs
 from algorithms.dfs import dfs
+from heuristics.box_stuck import box_stuck
 from models.Map import Map
 from models.State import State
 from models.Node import Node
 
+def load_heuristics(heuristics_list, map):
+    if heuristics_list == "box_stuck":
+        return lambda node: box_stuck(node, map)
+    else:
+        raise ValueError(f"Unknown heuristic: {heuristics_list}")
 
 with open(f"{sys.argv[1]}", "r") as file:
     sokoban_map = Map(file) # We load the map when creating the instance
@@ -18,12 +25,20 @@ with open(f"{sys.argv[1]}", "r") as file:
     with open(f"configs/config.json", 'r') as config_file:
         config = json.load(config_file)
 
-        if(config["report"] == "full"):
+        if config["report"] == "full":
             start_time = time.time()
 
-        last_node, explored_nodes_count, frontier_node_counts = bfs(initial_state, sokoban_map)
 
-        if(config["report"] == "full" and last_node):
+        if config["algorithm"] == "bfs":
+            last_node, explored_nodes_count, frontier_node_counts = bfs(initial_state, sokoban_map)
+        elif config["algorithm"] == "dfs":
+            last_node, explored_nodes_count, frontier_node_counts = bfs(initial_state, sokoban_map)
+        elif config["algorithm"] == "a_star":
+            heuristic = load_heuristics(config["heuristics"], sokoban_map)
+            last_node, explored_nodes_count, frontier_node_counts = a_star(initial_state, sokoban_map, heuristic)
+
+
+        if config["report"] == "full" and last_node:
             end_time = time.time()
             elapsed_time = end_time - start_time
             data["initial_map"] = sokoban_map.print_grid()
@@ -38,6 +53,6 @@ with open(f"{sys.argv[1]}", "r") as file:
         current_time = datetime.now()
         formatted_time = current_time.strftime("%Y-%m-%d_%H-%M-%S")
 
-        with open(f"results/result{formatted_time}", 'w') as result_file:
+        with open(f"results/result{formatted_time}.json", 'w') as result_file:
             json.dump(data, result_file, indent=5)
 

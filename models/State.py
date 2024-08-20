@@ -11,6 +11,7 @@ class State:
 
     def move(self, direction, game_map):
         new_player = self.player.move(direction)
+
         if game_map.is_wall(new_player):
             return None
         
@@ -21,6 +22,7 @@ class State:
                 return None
             new_boxes.remove(new_player)
             new_boxes.add(new_box_pos)
+
         
         return State(new_player, new_boxes)
 

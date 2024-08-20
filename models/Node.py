@@ -11,9 +11,23 @@ class Node:
     #     return f"Node(state={self.state}, cost={self.cost})"
     def __repr__(self):
         if self.parent:
-            return f"{self.parent} {self.action.value}"
-        return f"{self.action}"
+            return f"{self.parent}{self.action.value}"
+        if self.action:
+            return f"{self.action}"
+        else:
+            return ''
+
+    def __lt__(self, other):
+        return self.cost < other.cost
     
     def instructions(self):
         print("Instruction for resolution:")
         print(f"{self}")
+
+    def set_cost(self, cost):
+        self.cost = cost
+        return self
+
+    def add_cost(self, cost):
+        self.cost += cost
+        return self
