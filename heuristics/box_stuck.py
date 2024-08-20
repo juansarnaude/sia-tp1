@@ -34,7 +34,6 @@ class MapWithMarkedStuckPoints(Map):
         for row in self.grid:
             map_string += ''.join(row)
             map_string += '\n'
-        print(map_string)
 
     # Just limit the corners because boxes get stuck there
     def limit_corners(self):
