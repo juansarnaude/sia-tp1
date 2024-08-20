@@ -109,17 +109,7 @@ with open(f"{sys.argv[1]}", "r") as file:
         soko_image.save(image_str)
         images_file.append(image_str)
 
-        for y, row in enumerate(sokoban_map):
-            for x, char in enumerate(row):
-                if char == '@':
-                    print(image_counter, x, y)
-
         sokoban_map, player_pos = sokoban_map_update(sokoban_map, player_pos, movement)
-
-        for y, row in enumerate(sokoban_map):
-            for x, char in enumerate(row):
-                if char == '@':
-                    print(image_counter, x, y)
 
 
 

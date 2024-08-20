@@ -19,6 +19,22 @@ class Node:
 
     def __lt__(self, other):
         return self.cost < other.cost
+
+    def __eq__(self, other):
+        return self.cost == other.cost
+
+    def __ne__(self, other):
+        return self.cost!=other.cost
+
+    def __gt__(self, other):
+        return self.cost > other.cost
+
+    def __ge__(self, other):
+        return self <= other.cost
+
+    def __le__(self, other):
+        return self >= other.cost
+
     
     def instructions(self):
         print("Instruction for resolution:")

@@ -7,6 +7,7 @@ from algorithms.a_star import a_star
 from algorithms.bfs import bfs
 from algorithms.dfs import dfs
 from algorithms.local_greedy import local_greedy
+from algorithms.global_greedy import global_greedy
 from heuristics.box_stuck import box_stuck
 from heuristics.heuristic import Heuristic
 from models.Map import Map
@@ -36,6 +37,9 @@ with open(f"{sys.argv[1]}", "r") as file:
         elif config["algorithm"] == "local_greedy":
             heuristic = Heuristic(config["heuristics"], sokoban_map)
             last_node, explored_nodes_count, frontier_node_counts = local_greedy(initial_state, sokoban_map, heuristic)
+        elif config["algorithm"] == "global_greedy":
+            heuristic = Heuristic(config["heuristics"], sokoban_map)
+            last_node, explored_nodes_count, frontier_node_counts = global_greedy(initial_state, sokoban_map, heuristic)
 
         if config["report"] == "full" and last_node:
             end_time = time.time()
