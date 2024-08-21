@@ -1,47 +1,35 @@
-import time
-import copy
-from asyncio import PriorityQueue
-
+from collections import deque
+from queue import PriorityQueue
+from models.Node import Node 
 from models.Direction import Direction
-from models.Node import Node
-
 
 def local_greedy(initial_state, map, heuristics):
+    inner_frontier = PriorityQueue()
+    frontier = deque([Node(initial_state)])
     explored = set()
-    current_node = Node(initial_state)
-    root_node = current_node
-    heuristics.apply(current_node)
 
-    explored.add(current_node.state)
+    while frontier:
+        node = frontier.pop()
 
-    while current_node:
-        if current_node.state.is_goal_state(map):
-            return current_node, len(explored), 0
+        # Check if we have reached the goal state
+        if node.state.is_goal_state(map):
+            return node, len(explored), len(frontier)
 
-        min_cost = float('inf')
-        best_node = None
+        explored.add(node.state)
 
+        # Explore neighbors
         for direction in Direction:
-            child_state = current_node.state.move(direction, map)
+            child_state = node.state.move(direction, map)
+            heuristics.apply(node)
             if child_state and child_state not in explored:
-                new_node = Node(child_state, current_node, direction)
+                new_node = Node(child_state, node, direction)
                 heuristics.apply(new_node)
-                print(f"new node cost is {new_node.cost}")
-
-                # Compare the cost of the next states locally
-                if new_node.cost < min_cost:
-                    min_cost = new_node.cost
-                    best_node = new_node
-
-        # Check if best node exist
-        if best_node:
-            current_node = copy.deepcopy(best_node)
-        else:
-            #Backtrack
-            if current_node!=root_node:
-                current_node = copy.deepcopy(current_node.parent)
-            else: return None
-
-        explored.add(current_node.state)
-
+                inner_frontier.put((new_node.cost, new_node))
+        
+        #Add elements ordered by cost
+        while not inner_frontier.empty():
+            _, aux_node = inner_frontier.get()
+            frontier.append(aux_node)
+    
+    # Return None if no solution is found
     return None
