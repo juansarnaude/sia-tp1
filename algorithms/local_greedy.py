@@ -1,47 +1,38 @@
-import time
-import copy
-from asyncio import PriorityQueue
-
-from models.Direction import Direction
+import bisect
+from queue import PriorityQueue
+from collections import deque
 from models.Node import Node
+from models.Direction import Direction
+from models.State import State
 
 
-def local_greedy(initial_state, map, heuristics):
+def local_greedy(initial_state, map, heuristic):
+    frontier = PriorityQueue()
     explored = set()
-    current_node = Node(initial_state)
-    root_node = current_node
-    heuristics.apply(current_node)
 
-    explored.add(current_node.state)
+    node = Node(initial_state, depth=0)
+    heuristic.apply(node)
+    frontier.put((node.depth, node))
 
-    while current_node:
-        if current_node.state.is_goal_state(map):
-            return current_node, len(explored), 0
 
-        min_cost = float('inf')
-        best_node = None
+    while frontier:
+        _, node = frontier.get()
 
+        #print(node.depth)
+
+        # Check if we have reached the goal state
+        if node.state.is_goal_state(map):
+            return node, len(explored), frontier.qsize()
+
+        explored.add(node.state)
+
+        # Explore neighbors
         for direction in Direction:
-            child_state = current_node.state.move(direction, map)
+            child_state = node.state.move(direction, map)
             if child_state and child_state not in explored:
-                new_node = Node(child_state, current_node, direction)
-                heuristics.apply(new_node)
-                print(f"new node cost is {new_node.cost}")
+                new_node = Node(child_state, node, direction, depth=node.depth+1)
+                heuristic.apply(new_node)
+                frontier.put(( -new_node.depth , new_node))
 
-                # Compare the cost of the next states locally
-                if new_node.cost < min_cost:
-                    min_cost = new_node.cost
-                    best_node = new_node
-
-        # Check if best node exist
-        if best_node:
-            current_node = copy.deepcopy(best_node)
-        else:
-            #Backtrack
-            if current_node!=root_node:
-                current_node = copy.deepcopy(current_node.parent)
-            else: return None
-
-        explored.add(current_node.state)
-
+    # Return None if no solution is found
     return None

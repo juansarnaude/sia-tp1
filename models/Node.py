@@ -2,11 +2,12 @@ from models.Direction import Direction
 from models.State import State
 
 class Node:
-    def __init__(self, state: State, parent=None, action: Direction=None, cost=0):
+    def __init__(self, state: State, parent=None, action: Direction=None, cost=0, depth=None):
         self.state = state
         self.parent = parent
         self.action = action
         self.cost = cost
+        self.depth = depth
 
     # def __repr__(self):
     #     return f"Node(state={self.state}, cost={self.cost})"
