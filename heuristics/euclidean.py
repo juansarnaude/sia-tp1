@@ -9,7 +9,7 @@ def euclidean(node: Node = None, map: Map = None) -> float:
         else:
             distances = []
             for box in node.state.boxes:
-                shortest_distance = 9999999
+                shortest_distance = float('inf')
                 for goal in euclidean.map.goals:
                     distance = box.distance_to(goal)
                     if distance < shortest_distance:

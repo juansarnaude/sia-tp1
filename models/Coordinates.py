@@ -13,7 +13,7 @@ class Coordinates:
         return hash((self.x, self.y))
 
     def __repr__(self):
-        return f"Coordinates(x={self.x}, y={self.y})"
+        return f"(x={self.x}, y={self.y})"
 
     def move(self, direction):
         if direction == Direction.UP:

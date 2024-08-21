@@ -1,3 +1,5 @@
+import time
+import copy
 from asyncio import PriorityQueue
 
 from models.Direction import Direction
@@ -6,7 +8,7 @@ from models.Node import Node
 
 def local_greedy(initial_state, map, heuristics):
     explored = set()
-    current_node = Node(initial_state).set_cost(0)
+    current_node = Node(initial_state)
     root_node = current_node
     heuristics.apply(current_node)
 
@@ -14,12 +16,7 @@ def local_greedy(initial_state, map, heuristics):
 
     while current_node:
         if current_node.state.is_goal_state(map):
-            print("OOOSSSAAA")
-            print(current_node.cost)
-            print(len(explored))
             return current_node, len(explored), 0
-
-
 
         min_cost = float('inf')
         best_node = None
@@ -27,8 +24,9 @@ def local_greedy(initial_state, map, heuristics):
         for direction in Direction:
             child_state = current_node.state.move(direction, map)
             if child_state and child_state not in explored:
-                new_node = Node(child_state, current_node, direction, cost=current_node.cost + 1)
+                new_node = Node(child_state, current_node, direction)
                 heuristics.apply(new_node)
+                print(f"new node cost is {new_node.cost}")
 
                 # Compare the cost of the next states locally
                 if new_node.cost < min_cost:
@@ -37,11 +35,13 @@ def local_greedy(initial_state, map, heuristics):
 
         # Check if best node exist
         if best_node:
-            current_node = best_node
-            explored.add(current_node.state)
+            current_node = copy.deepcopy(best_node)
         else:
             #Backtrack
             if current_node!=root_node:
-                current_node = current_node.parent
+                current_node = copy.deepcopy(current_node.parent)
+            else: return None
+
+        explored.add(current_node.state)
 
     return None

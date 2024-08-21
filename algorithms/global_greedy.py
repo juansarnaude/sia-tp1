@@ -12,8 +12,6 @@ def global_greedy(initial_state, map, heuristics):
     heuristics.apply(node)
     frontier.put((node.cost, node))
 
-    # We use bfs
-
     while frontier:
         _, node = frontier.get()
 
