@@ -6,6 +6,6 @@ def boxes_in_goals(node = None, map = None):
         boxes_in_goals.n_boxes = len(map.boxes)
         return
     else:
-        node.add_cost(- len(node.state.boxes.intersection(boxes_in_goals.map.goals)) / boxes_in_goals.n_boxes)
+        node.add_cost(  boxes_in_goals.n_boxes / (len(node.state.boxes.intersection(boxes_in_goals.map.goals))+1)  )
         return
 
