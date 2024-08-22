@@ -105,7 +105,7 @@ class MapWithMarkedStuckPoints(Map):
                             except IndexError:
                                 pass
 
-        explored_stuck_points.add(stuck_point_1)
+            explored_stuck_points.add(stuck_point_1)
 
 
     # Check if the line between points has a wall by the side constantly

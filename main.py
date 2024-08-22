@@ -64,6 +64,8 @@ with open(f"{sys.argv[1]}", "r") as file:
         current_time = datetime.now()
         formatted_time = current_time.strftime("%Y-%m-%d_%H-%M-%S")
 
-        with open(f"results/result{formatted_time}.json", 'w') as result_file:
+        level = f"{sys.argv[1]}".split("/")[-1]
+
+        with open(f"results/result_"f"{level}_{formatted_time}.json", 'w') as result_file:
             json.dump(data, result_file, indent=5)
 

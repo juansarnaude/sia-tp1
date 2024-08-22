@@ -6,7 +6,7 @@ from heuristics.manhattan import manhattan
 
 class Heuristic:
     def __init__(self, heuristics_list, map):
-        self.box_stuck, self.boxes_in_goals, self.euclidean = None, None, None
+        self.box_stuck, self.boxes_in_goals, self.euclidean, self.manhattan = None,None, None, None
 
         if "box_stuck" in heuristics_list:
             self.box_stuck = 1
