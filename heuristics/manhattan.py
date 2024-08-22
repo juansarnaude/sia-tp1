@@ -1,3 +1,5 @@
+import math
+
 import numpy as np
 
 from models.Map import Map
@@ -13,7 +15,7 @@ def manhattan(node: Node = None, map: Map = None) -> float:
         for box in node.state.boxes:
             shortest_distance = float('inf')
             for goal in manhattan.map.goals:
-                distance = box.distance_to(goal)
+                distance = math.fabs(box.x- goal.x) + math.fabs(box.y - goal.y)
                 if distance < shortest_distance:
                     shortest_distance = distance
             distances.append(shortest_distance)
