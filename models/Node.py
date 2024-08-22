@@ -11,8 +11,6 @@ class Node:
     # def __repr__(self):
     #     return f"Node(state={self.state}, cost={self.cost})"
     def __repr__(self):
-        if self.parent:
-            return f"{self.parent}{self.action.value}"
         if self.action:
             return f"{self.action.value}"
         else:

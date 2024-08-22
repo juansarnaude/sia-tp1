@@ -2,5 +2,5 @@
     "report":"full",
     "showMap":false,
     "algorithm": "local_greedy",
-    "heuristics": ["box_stuck", "euclideam"]
+    "heuristics": ["box_stuck", "manhattan"]
 }

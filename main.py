@@ -53,7 +53,13 @@ with open(f"{sys.argv[1]}", "r") as file:
             data["frontier_node_counts"] = frontier_node_counts
 
         if last_node:
-            data["solution"] = f"{last_node}"
+            node = last_node
+            sol_str = ''
+            while node:
+                sol_str = node.__repr__() + sol_str
+                node = node.parent
+            data["solution"] = sol_str
+
 
         current_time = datetime.now()
         formatted_time = current_time.strftime("%Y-%m-%d_%H-%M-%S")

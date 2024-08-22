@@ -1,6 +1,7 @@
 from heuristics.box_stuck import box_stuck
 from heuristics.boxes_in_goals import boxes_in_goals
 from heuristics.euclidean import euclidean
+from heuristics.manhattan import manhattan
 
 
 class Heuristic:
@@ -19,6 +20,10 @@ class Heuristic:
             self.euclidean = 1
             euclidean(map=map)
 
+        if "manhattan" in heuristics_list:
+            self.manhattan = 1
+            manhattan(map=map)
+
     def apply(self, node):
         if self.box_stuck:
             box_stuck(node=node)
@@ -26,4 +31,6 @@ class Heuristic:
             boxes_in_goals(node=node)
         if self.euclidean:
             euclidean(node=node)
+        if self.manhattan:
+            manhattan(node=node)
 
