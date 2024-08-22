@@ -23,14 +23,14 @@ with open(f"{sys.argv[1]}", "r") as file:
     with open(f"configs/config.json", 'r') as config_file:
         config = json.load(config_file)
 
-        if config["report"] == "full":
+        if config["full_report"]:
             start_time = time.time()
 
 
         if config["algorithm"] == "bfs":
             last_node, explored_nodes_count, frontier_node_counts = bfs(initial_state, sokoban_map)
         elif config["algorithm"] == "dfs":
-            last_node, explored_nodes_count, frontier_node_counts = bfs(initial_state, sokoban_map)
+            last_node, explored_nodes_count, frontier_node_counts = dfs(initial_state, sokoban_map)
         elif config["algorithm"] == "a_star":
             heuristic = Heuristic(config["heuristics"], sokoban_map)
             last_node, explored_nodes_count, frontier_node_counts = a_star(initial_state, sokoban_map, heuristic)
@@ -41,13 +41,16 @@ with open(f"{sys.argv[1]}", "r") as file:
             heuristic = Heuristic(config["heuristics"], sokoban_map)
             last_node, explored_nodes_count, frontier_node_counts = global_greedy(initial_state, sokoban_map, heuristic)
 
-        if config["report"] == "full" and last_node:
+        if config["full_report"]:
             end_time = time.time()
             elapsed_time = end_time - start_time
             data["initial_map"] = sokoban_map.print_grid()
             data["algorithm"] = config["algorithm"]
             data["heuristic"] = config["heuristics"]
-            data["result"] = "success"
+            if last_node:
+                data["result"] = "success"
+            else:
+                data["result"] = "fail"
             data["execution_time"] = f"elapsed_time: {elapsed_time:.5f} s"
             data["explored_nodes_count"] = explored_nodes_count
             data["frontier_node_counts"] = frontier_node_counts

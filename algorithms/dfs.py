@@ -12,7 +12,7 @@ def dfs(initial_state, map):
 
         # Check if we have reached the goal state
         if node.state.is_goal_state(map):
-            return node.path()
+            return node,len(explored),len(frontier)
 
         explored.add(node.state)
 
@@ -23,4 +23,4 @@ def dfs(initial_state, map):
                 frontier.append(Node(child_state, node, direction))
     
     # Return None if no solution is found
-    return None
+    return None, len(explored), len(frontier)

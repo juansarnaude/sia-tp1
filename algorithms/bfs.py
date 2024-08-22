@@ -23,4 +23,4 @@ def bfs(initial_state, map):
                 frontier.append(Node(child_state, node, direction))
     
     # Return None if no solution is found
-    return None
+    return None, len(explored), len(frontier)

@@ -30,6 +30,6 @@ def local_greedy(initial_state, map, heuristics):
         while not inner_frontier.empty():
             _, aux_node = inner_frontier.get()
             frontier.append(aux_node)
-    
+
     # Return None if no solution is found
-    return None
+    return None, len(explored), len(frontier)

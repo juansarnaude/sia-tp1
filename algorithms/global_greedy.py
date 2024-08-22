@@ -12,7 +12,7 @@ def global_greedy(initial_state, map, heuristics):
     heuristics.apply(node)
     frontier.put((node.cost, node))
 
-    while frontier:
+    while frontier.qsize()>0:
         _, node = frontier.get()
 
         # Check if we have reached the goal state
@@ -30,4 +30,4 @@ def global_greedy(initial_state, map, heuristics):
                 frontier.put((new_node.cost, new_node))
 
     # Return None if no solution is found
-    return None
+    return None,len(explored), frontier.qsize()

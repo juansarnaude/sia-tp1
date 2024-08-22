@@ -14,7 +14,7 @@ def a_star(initial_state, map, heuristic):
     frontier.put((node.cost, node))
 
 
-    while frontier:
+    while frontier.qsize()>0:
         _, node = frontier.get()
 
         if node.state.is_goal_state(map):
@@ -31,4 +31,4 @@ def a_star(initial_state, map, heuristic):
                 heuristic.apply(new_node)
                 frontier.put((new_node.cost, new_node))
 
-    return None
+    return None, len(explored), frontier.qsize()
