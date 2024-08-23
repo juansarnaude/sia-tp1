@@ -7,7 +7,7 @@ from models.Node import Node
 
 
 def manhattan(node: Node = None, map: Map = None) -> float:
-    if not hasattr(manhattan, "map"):
+    if map:
         manhattan.map = map
         return
     else:

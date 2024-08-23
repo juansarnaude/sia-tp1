@@ -5,6 +5,8 @@ from PIL import Image
 import json
 import sys
 
+from models.Coordinates import Coordinates
+
 sprite_map = {
     '#': "./sprites/wall.png",
     '@': "./sprites/monkey.png",
@@ -36,7 +38,7 @@ def clean_directories():
     except Exception as e:
         print(f"Failed to create directory './output/imgs'. Reason: {e}")
 
-def sokoban_map_update(soko_map, player, direction):
+def sokoban_map_update(soko_map, player, direction, flags):
     step = (0,0)
     if direction == "U":
         step = (-1,0)
@@ -47,7 +49,10 @@ def sokoban_map_update(soko_map, player, direction):
     if direction == "L":
         step = (0,-1)
 
-    soko_map[player[0]][player[1]] = ' '
+    if Coordinates(player[0], player[1]) not in flags:
+        soko_map[player[0]][player[1]] = ' '
+    else:
+        soko_map[player[0]][player[1]] = '.'
 
     player = (player[0] + step[0], player[1]+step[1])
 
@@ -77,6 +82,13 @@ with open(f"{sys.argv[1]}", "r") as file:
 
     #Clean output images directories
     clean_directories()
+    flags = set()
+
+    # Find the player position
+    for y, row in enumerate(sokoban_map):
+        for x, char in enumerate(row):
+            if char == '*' or char == '.':
+                flags.add(Coordinates(y,x))
 
     #Find the player position
     for y, row in enumerate(sokoban_map):
@@ -99,6 +111,7 @@ with open(f"{sys.argv[1]}", "r") as file:
 
         soko_image = Image.new('RGBA', (image_width, image_height))
 
+
         for y, row in enumerate(sokoban_map):
             for x, char in enumerate(row):
                 if char in sprites:
@@ -109,7 +122,7 @@ with open(f"{sys.argv[1]}", "r") as file:
         soko_image.save(image_str)
         images_file.append(image_str)
 
-        sokoban_map, player_pos = sokoban_map_update(sokoban_map, player_pos, movement)
+        sokoban_map, player_pos = sokoban_map_update(sokoban_map, player_pos, movement, flags)
 
 
 

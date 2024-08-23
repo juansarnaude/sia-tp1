@@ -5,7 +5,7 @@ from models.Node import Node
 from models.Map import Map
 
 def euclidean(node: Node = None, map: Map = None) -> float:
-    if not hasattr(euclidean, "map"):
+    if map:
         euclidean.map = map
         return
     else:

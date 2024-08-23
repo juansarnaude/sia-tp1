@@ -4,7 +4,7 @@ from models.Map import Map
 
 
 def box_stuck(node = None, map = None):
-    if not hasattr(box_stuck, "map"):
+    if map:
         box_stuck.map = MapWithMarkedStuckPoints(map)
         return
     else:

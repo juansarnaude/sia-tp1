@@ -1,6 +1,7 @@
 {
     "full_report":true,
     "showMap":false,
-    "algorithm": "global_greedy",
-    "heuristics": ["box_stuck", "euclidean"]
+    "algorithm": "a_star",
+    "heuristics": ["box_stuck", "manhattan", "boxes_in_goals"],
+    "iteration_count": 5
 }

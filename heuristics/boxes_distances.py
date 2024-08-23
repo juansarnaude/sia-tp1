@@ -5,7 +5,7 @@ from heuristics.box_stuck import MapWithMarkedStuckPoints
 
 
 def boxes_distances(node = None, map = None):
-    if not hasattr(boxes_distances, "map"):
+    if map:
         boxes_distances.map = map
 
     else:

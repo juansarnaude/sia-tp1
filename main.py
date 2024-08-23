@@ -23,46 +23,66 @@ with open(f"{sys.argv[1]}", "r") as file:
     with open(f"configs/config.json", 'r') as config_file:
         config = json.load(config_file)
 
-        if config["full_report"]:
+        results_list = []
+        explored_nodes_count_list =[]
+        frontier_node_counts_list = []
+        execution_time_list= []
+        solutions_list = []
+        solution_length_list = []
+
+        iteration_count = config["iteration_count"]
+
+        for i in range(iteration_count):
             start_time = time.time()
 
+            if config["algorithm"] == "bfs":
+                last_node, explored_nodes_count, frontier_node_counts = bfs(initial_state, sokoban_map)
+            elif config["algorithm"] == "dfs":
+                last_node, explored_nodes_count, frontier_node_counts = dfs(initial_state, sokoban_map)
+            elif config["algorithm"] == "a_star":
+                heuristic = Heuristic(config["heuristics"], sokoban_map)
+                last_node, explored_nodes_count, frontier_node_counts = a_star(initial_state, sokoban_map, heuristic)
+            elif config["algorithm"] == "local_greedy":
+                heuristic = Heuristic(config["heuristics"], sokoban_map)
+                last_node, explored_nodes_count, frontier_node_counts = local_greedy(initial_state, sokoban_map, heuristic)
+            elif config["algorithm"] == "global_greedy":
+                heuristic = Heuristic(config["heuristics"], sokoban_map)
+                last_node, explored_nodes_count, frontier_node_counts = global_greedy(initial_state, sokoban_map, heuristic)
 
-        if config["algorithm"] == "bfs":
-            last_node, explored_nodes_count, frontier_node_counts = bfs(initial_state, sokoban_map)
-        elif config["algorithm"] == "dfs":
-            last_node, explored_nodes_count, frontier_node_counts = dfs(initial_state, sokoban_map)
-        elif config["algorithm"] == "a_star":
-            heuristic = Heuristic(config["heuristics"], sokoban_map)
-            last_node, explored_nodes_count, frontier_node_counts = a_star(initial_state, sokoban_map, heuristic)
-        elif config["algorithm"] == "local_greedy":
-            heuristic = Heuristic(config["heuristics"], sokoban_map)
-            last_node, explored_nodes_count, frontier_node_counts = local_greedy(initial_state, sokoban_map, heuristic)
-        elif config["algorithm"] == "global_greedy":
-            heuristic = Heuristic(config["heuristics"], sokoban_map)
-            last_node, explored_nodes_count, frontier_node_counts = global_greedy(initial_state, sokoban_map, heuristic)
-
-        if config["full_report"]:
             end_time = time.time()
             elapsed_time = end_time - start_time
+            execution_time_list.append(elapsed_time)
+
+            explored_nodes_count_list.append(explored_nodes_count)
+            frontier_node_counts_list.append(frontier_node_counts)
+
+            if last_node:
+                results_list.append("success")
+            else:
+                results_list.append("failure")
+
+            if last_node:
+                node = last_node
+                sol_str = ''
+                while node:
+                    sol_str = node.__repr__() + sol_str
+                    node = node.parent
+                solutions_list.append(sol_str)
+                solution_length_list.append(len(sol_str))
+
+            # We reset heuristic so we dont give an advantage to heuristics that take a huge amount of time setting
+            heuristic = None
+
+
+        if config["full_report"]:
+            data["solution"] = solutions_list
+            data["solution_length"] = solution_length_list
+            data["execution_time"] = execution_time_list
+            data["explored_nodes_count"] = explored_nodes_count_list
+            data["frontier_node_counts"] = frontier_node_counts_list
             data["initial_map"] = sokoban_map.print_grid()
             data["algorithm"] = config["algorithm"]
             data["heuristic"] = config["heuristics"]
-            if last_node:
-                data["result"] = "success"
-            else:
-                data["result"] = "fail"
-            data["execution_time"] = f"elapsed_time: {elapsed_time:.5f} s"
-            data["explored_nodes_count"] = explored_nodes_count
-            data["frontier_node_counts"] = frontier_node_counts
-
-        if last_node:
-            node = last_node
-            sol_str = ''
-            while node:
-                sol_str = node.__repr__() + sol_str
-                node = node.parent
-            data["solution"] = sol_str
-
 
         current_time = datetime.now()
         formatted_time = current_time.strftime("%Y-%m-%d_%H-%M-%S")

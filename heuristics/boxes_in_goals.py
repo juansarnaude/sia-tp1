@@ -1,7 +1,7 @@
 
 
 def boxes_in_goals(node = None, map = None):
-    if not hasattr(boxes_in_goals, "map"):
+    if map:
         boxes_in_goals.map = map
         boxes_in_goals.n_boxes = len(map.boxes)
         return
