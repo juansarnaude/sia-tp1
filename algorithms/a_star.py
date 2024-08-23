@@ -1,34 +1,40 @@
 from queue import PriorityQueue
 
-from heuristics.box_stuck import box_stuck
+from heuristics.heuristic import Heuristic
+from models.Map import Map
 from models.Direction import Direction
 from models.Node import Node
+from models.State import State
 
 
-def a_star(initial_state, map, heuristic):
+def a_star(initial_state: State, game_map: Map, heuristic: Heuristic):
     frontier = PriorityQueue()
     explored = set()
 
-    node = Node(initial_state).set_cost(0)
-    heuristic.apply(node)
-    frontier.put((node.cost, node))
+    # Crea el nodo inicial
+    start_node = Node(initial_state, cost=0)
+    # Aplica la heurística inicial
+    heuristic.apply(start_node)
 
+    # Agrega el nodo inicial a la frontera
+    frontier.put((start_node.cost, start_node))
 
-    while frontier.qsize()>0:
-        _, node = frontier.get()
+    while not frontier.empty():
+        _, current_node = frontier.get()
 
-        if node.state.is_goal_state(map):
-            return node, len(explored), frontier.qsize()
+        if current_node.state.is_goal_state(game_map):
+            return current_node, len(explored), frontier.qsize()
 
-        explored.add(node.state)
+        explored.add(current_node.state)
 
         for direction in Direction:
-            child_state = node.state.move(direction, map)
+            child_state = current_node.state.move(direction, game_map)
             if child_state and child_state not in explored:
-                # G(n)
-                new_node = Node(child_state, node, direction, cost=node.cost+1)
-                # H(n)
-                heuristic.apply(new_node)
-                frontier.put((new_node.cost, new_node))
+                # Crea el nodo hijo
+                child_node = Node(child_state, parent=current_node, action=direction, cost=current_node.cost + 1)
+                # Aplica la función heurística
+                heuristic.apply(child_node)
+                # Agrega el nodo hijo a la frontera
+                frontier.put((child_node.cost, child_node))
 
     return None, len(explored), frontier.qsize()
