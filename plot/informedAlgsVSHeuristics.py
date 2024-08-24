@@ -24,7 +24,6 @@ for i, algorithm in enumerate(algorithms):
             data = json.load(file)
             df.iloc[i, j] = data['solution_length'][0]
         
-print(df.values)
 
 fig = go.Figure(data=go.Heatmap(
     z=df.values,  # The values to color the cells
@@ -37,7 +36,6 @@ fig = go.Figure(data=go.Heatmap(
     colorbar=dict(title='Solution length')  # Colorbar to indicate the scale of values
 ))
 
-print(df)
 
 fig.update_layout(
     title='Number of Steps for Solving Sokoban Game',
