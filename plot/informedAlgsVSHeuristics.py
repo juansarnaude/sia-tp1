@@ -8,7 +8,7 @@ heuristics = ['euclidean', 'manhattan', 'boxes_in_goals', 'euclidean_non_admissi
 # # Generate data set
 # for i, algorithm in enumerate(algorithms):
 #     for j, heuristic in enumerate(heuristics):
-#         sokoban(algorithm, [heuristic], 'maps/lv1.txt', f"results/informedVsHeuristics/r{i}{j}.json")
+#         sokoban(algorithm, [heuristic], 'maps/lv1.txt', f"results/informedVsHeuristics/r{i}{j}.json",1)
 
 # Create an empty DataFrame with algorithms as rows and heuristics as columns
 df = pd.DataFrame(

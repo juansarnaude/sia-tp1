@@ -61,11 +61,6 @@ with open(f"{sys.argv[1]}", "r") as file:
             frontier_node_counts_list.append(frontier_node_counts)
 
             if last_node:
-                results_list.append("success")
-            else:
-                results_list.append("failure")
-
-            if last_node:
                 node = last_node
                 sol_str = ''
                 while node:
@@ -79,8 +74,12 @@ with open(f"{sys.argv[1]}", "r") as file:
 
 
         if config["full_report"]:
-            data["solution"] = solutions_list
-            data["solution_length"] = solution_length_list
+            if last_node:
+                data["status"]="success"
+                data["solution"] = solutions_list
+                data["solution_length"] = solution_length_list
+            else:
+                data["status"]="failure"
             data["execution_time"] = execution_time_list
             data["explored_nodes_count"] = explored_nodes_count_list
             data["frontier_node_counts"] = frontier_node_counts_list
