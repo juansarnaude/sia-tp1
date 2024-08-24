@@ -1,3 +1,5 @@
+#this file is for setting parameters in configs/config.json an running a specific setup
+
 import sys
 import json
 import time
@@ -14,7 +16,6 @@ from heuristics.heuristic import Heuristic
 from models.Map import Map
 from models.State import State
 from models.Node import Node
-
 
 with open(f"{sys.argv[1]}", "r") as file:
     sokoban_map = Map(file) # We load the map when creating the instance
@@ -87,11 +88,17 @@ with open(f"{sys.argv[1]}", "r") as file:
             data["algorithm"] = config["algorithm"]
             data["heuristic"] = config["heuristics"]
 
-        current_time = datetime.now()
-        formatted_time = current_time.strftime("%Y-%m-%d_%H-%M-%S")
+        output_file_name = ""
 
-        level = f"{sys.argv[1]}".split("/")[-1]
+        if config["output_file_name"] == "":
+            current_time = datetime.now()
+            formatted_time = current_time.strftime("%Y-%m-%d_%H-%M-%S")
+            level = f"{sys.argv[1]}".split("/")[-1]
+            output_file_name = f"result_"f"{level}_{formatted_time}"
+        else:
+            output_file_name = config["output_file_name"]
 
-        with open(f"results/result_"f"{level}_{formatted_time}.json", 'w') as result_file:
+
+        with open(f"results/{output_file_name}.json", 'w') as result_file:
             json.dump(data, result_file, indent=5)
 

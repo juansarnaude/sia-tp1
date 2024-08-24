@@ -2,5 +2,6 @@
     "full_report":true,
     "algorithm": "iddfs",
     "heuristics": ["box_stuck"],
-    "iteration_count": 1
+    "iteration_count": 1,
+    "output_file_name":""
 }
