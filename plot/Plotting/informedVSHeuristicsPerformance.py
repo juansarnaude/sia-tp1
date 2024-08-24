@@ -34,8 +34,8 @@ fig = go.Figure(data=go.Heatmap(
 
 fig.update_layout(
     title='Number of Steps for Solving Sokoban Game',
-    xaxis_title='Algorithms',
-    yaxis_title='Heuristics'
+    xaxis_title='Heuristics',
+    yaxis_title='Algorithms'
 )
 
 fig.show()
