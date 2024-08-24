@@ -12,7 +12,7 @@ def dfs(initial_state, map):
 
         # Check if we have reached the goal state
         if node.state.is_goal_state(map):
-            return node,len(explored),len(frontier)
+           return node,len(explored),len(frontier)
 
         explored.add(node.state)
 

@@ -69,7 +69,7 @@ def sokoban_map_update(soko_map, player, direction, flags):
 with open(f"{sys.argv[1]}", "r") as file:
     result_file = json.load(file)
     sokoban_map_ini = result_file['initial_map']
-    solution_str = result_file['solution']
+    solution_str = result_file['solution'][0]
 
     #Filter solution
     parts = solution_str.split()
@@ -106,7 +106,7 @@ with open(f"{sys.argv[1]}", "r") as file:
     images_file = []
     image_str = ''
 
-    for movement in solution:
+    for movement in solution + 'a':
         image_counter += 1
 
         soko_image = Image.new('RGBA', (image_width, image_height))
@@ -131,9 +131,9 @@ with open(f"{sys.argv[1]}", "r") as file:
     images[0].save(
         "./output/solution_animation.gif",
         format="GIF",
-        append_images=images[1:],
+        append_images=images[:],
         save_all=True,
-        duration=7,
+        duration=200,
         loop=0,
         disposal= 2
     )

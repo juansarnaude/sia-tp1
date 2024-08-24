@@ -8,6 +8,7 @@ from algorithms.bfs import bfs
 from algorithms.dfs import dfs
 from algorithms.local_greedy import local_greedy
 from algorithms.global_greedy import global_greedy
+from algorithms.iddfs import iddfs
 from heuristics.box_stuck import box_stuck
 from heuristics.heuristic import Heuristic
 from models.Map import Map
@@ -39,6 +40,8 @@ with open(f"{sys.argv[1]}", "r") as file:
                 last_node, explored_nodes_count, frontier_node_counts = bfs(initial_state, sokoban_map)
             elif config["algorithm"] == "dfs":
                 last_node, explored_nodes_count, frontier_node_counts = dfs(initial_state, sokoban_map)
+            elif config["algorithm"] == "iddfs":
+                last_node, explored_nodes_count, frontier_node_counts = iddfs(initial_state, sokoban_map)
             elif config["algorithm"] == "a_star":
                 heuristic = Heuristic(config["heuristics"], sokoban_map)
                 last_node, explored_nodes_count, frontier_node_counts = a_star(initial_state, sokoban_map, heuristic)

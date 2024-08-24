@@ -1,7 +1,7 @@
 {
     "full_report":true,
     "showMap":false,
-    "algorithm": "a_star",
-    "heuristics": ["box_stuck", "manhattan", "boxes_in_goals"],
-    "iteration_count": 5
+    "algorithm": "iddfs",
+    "heuristics": ["box_stuck"],
+    "iteration_count": 1
 }
