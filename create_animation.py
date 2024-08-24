@@ -95,6 +95,11 @@ pygame.init()
 with open(f"{sys.argv[1]}", "r") as f:
     data = json.load(f)
 
+if data['status']=='failure':
+    print("No solutions found")
+    pygame.quit()
+    sys.exit()
+
 initial_map = data['initial_map'].splitlines()
 solution = data['solution'][0]
 
