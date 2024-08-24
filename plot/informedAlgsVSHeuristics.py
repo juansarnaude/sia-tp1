@@ -2,10 +2,8 @@ import pandas as pd
 import json
 import plotly.graph_objects as go
 
-from sokoban import sokoban
-
 algorithms = ['local_greedy', 'global_greedy', 'a_star']
-heuristics = ['euclidean', 'manhattan', 'boxes_in_goals', 'euclidean', 'euclidean_non_admissible', 'manhattan_non_admissible']
+heuristics = ['euclidean', 'manhattan', 'boxes_in_goals', 'euclidean_non_admissible', 'manhattan_non_admissible']
 
 # # Generate data set
 # for i, algorithm in enumerate(algorithms):
