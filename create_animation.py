@@ -90,18 +90,18 @@ def move_player(grid, position, direction):
     return position
 
 
+pygame.init()
 
 with open(f"{sys.argv[1]}", "r") as f:
     data = json.load(f)
 
 if data['status']=='failure':
     print("No solutions found")
+    pygame.quit()
     sys.exit()
 
 initial_map = data['initial_map'].splitlines()
-solutions_list=[]
-for solution in data['solution']:
-    solutions_list.append(solution)
+solution = data['solution'][0]
 
 max_width = max(len(row) for row in initial_map)
 height = len(initial_map)
@@ -109,61 +109,57 @@ height = len(initial_map)
 # Tamaño de la ventana
 width = max_width * TILE_SIZE
 height = height * TILE_SIZE
+screen = pygame.display.set_mode((width, height))
 
-for solution in solutions_list:
-    pygame.init()
-    print("Solution: " + str(solution))
-    screen = pygame.display.set_mode((width, height))
+# Cargar sprites
+sprites = load_sprites()
 
-    # Cargar sprites
-    sprites = load_sprites()
+# Posición inicial del jugador
+player_pos = None
+for y, row in enumerate(initial_map):
+    if '@' in row:
+        player_pos = [row.index('@'), y]
+        break
+    elif '+' in row:
+        player_pos = [row.index('+'), y]
+        break
 
-    # Posición inicial del jugador
-    player_pos = None
-    for y, row in enumerate(initial_map):
-        if '@' in row:
-            player_pos = [row.index('@'), y]
-            break
-        elif '+' in row:
-            player_pos = [row.index('+'), y]
-            break
+# Cargar mapa en formato de grid
+grid = []
+for line in initial_map:
+    grid.append(list(line))
 
-    # Cargar mapa en formato de grid
-    grid = []
-    for line in initial_map:
-        grid.append(list(line))
+# Crear superficie de fondo
+background_surface = create_background_surface(grid, sprites)
 
-    # Crear superficie de fondo
-    background_surface = create_background_surface(grid, sprites)
+# Loop principal
+clock = pygame.time.Clock()
+move_index = 0
 
-    # Loop principal
-    clock = pygame.time.Clock()
-    move_index = 0
+running = True
+while running:
+    for event in pygame.event.get():
+        if event.type == QUIT:
+            running = False
 
-    running = True
-    while running:
-        for event in pygame.event.get():
-            if event.type == QUIT:
-                running = False
+    if move_index < len(solution):
+        # Limpiar la pantalla antes de dibujar
+        screen.fill((0, 0, 0))
 
-        if move_index < len(solution):
-            # Limpiar la pantalla antes de dibujar
-            screen.fill((0, 0, 0))
+        # Actualizar la posición del jugador según el movimiento actual
+        player_pos = move_player(grid, player_pos, solution[move_index])
 
-            # Actualizar la posición del jugador según el movimiento actual
-            player_pos = move_player(grid, player_pos, solution[move_index])
+        draw_map(screen, grid, sprites, background_surface)
+        pygame.display.flip()
 
-            draw_map(screen, grid, sprites, background_surface)
-            pygame.display.flip()
+        # Pasar al siguiente movimiento
+        move_index += 1
 
-            # Pasar al siguiente movimiento
-            move_index += 1
+        clock.tick(5)
+    else:
+        # Si se han realizado todos los movimientos, mantener la ventana abierta
+        draw_map(screen, grid, sprites, background_surface)
+        pygame.display.flip()
+        clock.tick(5)
 
-            clock.tick(5)
-        else:
-            # Si se han realizado todos los movimientos, mantener la ventana abierta
-            draw_map(screen, grid, sprites, background_surface)
-            pygame.display.flip()
-            clock.tick(5)
-
-    pygame.quit()
+pygame.quit()
