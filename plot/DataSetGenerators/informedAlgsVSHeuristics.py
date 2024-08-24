@@ -9,8 +9,9 @@ with open("configs/config_dataset.json", 'r') as file:
     algorithms = config["algorithms"]
     heuristics = config["heuristics"]
     map = config["map"]
+    iteration_count = config["iteration_count"]
     
     # # Generate data set
     for i, algorithm in enumerate(algorithms):
         for j, heuristic in enumerate(heuristics):
-            sokoban(algorithm, [heuristic], map, f"results/informedVsHeuristics/{map.split('/')}-{i}{j}.json", 4)
+            sokoban(algorithm, [heuristic], map, f"results/informedVsHeuristics/{map.split('/')}-{i}{j}.json", iteration_count)
