@@ -1,6 +1,5 @@
 {
     "full_report":true,
-    "showMap":false,
     "algorithm": "iddfs",
     "heuristics": ["box_stuck"],
     "iteration_count": 1
