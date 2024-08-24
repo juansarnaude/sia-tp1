@@ -14,4 +14,4 @@ with open("configs/config_dataset.json", 'r') as file:
     # # Generate data set
     for i, algorithm in enumerate(algorithms):
         for j, heuristic in enumerate(heuristics):
-            sokoban(algorithm, [heuristic], map, f"results/informedVsHeuristics/{map.split('/')}-{i}{j}.json", iteration_count)
+            sokoban(algorithm, [heuristic], map, f"results/informedVsHeuristics/{map.split('/')[1]}-{i}{j}.json", iteration_count)
