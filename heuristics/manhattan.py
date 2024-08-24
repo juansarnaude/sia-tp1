@@ -1,32 +1,20 @@
-import itertools
 import math
 
-from heuristics.box_stuck import MapWithMarkedStuckPoints
 
-
-def manhattan(node = None, map = None):
+def manhattan(node=None, map=None):
     if map:
         manhattan.map = map
-
     else:
-        distances = []
+        total_manhattan_distance = 0
         for box_instance in node.state.boxes:
-            box_instance_distances = []
+            player_distance = math.fabs(box_instance.x - node.state.player.x) + math.fabs(box_instance.y -  node.state.player.y)
+            # Calcular la distancia Manhattan mínima entre la caja y cualquier objetivo
+            min_distance = float('inf')
             for goal in manhattan.map.goals:
-                box_instance_distance = math.fabs(box_instance.x- goal.x) + math.fabs(box_instance.y - goal.y)
-                box_instance_distance += abs(node.state.player.x- box_instance.x) + abs(node.state.player.y - box_instance.y)
-                box_instance_distances.append(box_instance_distance)
+                distance = math.fabs(box_instance.x - goal.x) + math.fabs(box_instance.y - goal.y) + player_distance
+                min_distance = min(min_distance, distance)
 
-            distances.append(box_instance_distances)
+            # Sumar la distancia mínima al total
+            total_manhattan_distance += min_distance
 
-
-        # Check of the combiation of box->goals that minimizes distances
-        min_cost = float('inf')
-        for box_goals_distances in itertools.permutations(range(len(distances)), len(distances)):
-            min_cost = min(sum(distances[box][goal] for box,goal in enumerate(box_goals_distances)), min_cost)
-
-        node.add_cost(min_cost)
-
-
-
-
+        node.add_cost(total_manhattan_distance)
