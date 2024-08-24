@@ -1,139 +1,160 @@
-import os
-import shutil
-
-from PIL import Image
+import pygame
 import json
 import sys
+from pygame.locals import *
 
-from models.Coordinates import Coordinates
+TILE_SIZE = 32  # Tamaño reducido de las imágenes
 
-sprite_map = {
-    '#': "./sprites/wall.png",
-    '@': "./sprites/monkey.png",
-    '$': "./sprites/banana.png",
-    '.': "./sprites/target.png",
-    '*': "./sprites/banana.png"
+SPRITE_MAP = {
+    '#': 'wall.png',
+    '$': 'banana.png',  # Caja
+    '.': 'target.png',  # Objetivo
+    '*': 'banana.png',  # Caja en objetivo
+    '+': 'monkey.png',  # Jugador en objetivo
+    '@': 'monkey.png'  # Jugador
 }
 
-sprite_size = 360
-sprites = {}
+
+def load_sprites():
+    sprites = {}
+    for char, filename in SPRITE_MAP.items():
+        sprite = pygame.image.load(f'sprites/{filename}')
+        sprite = pygame.transform.scale(sprite, (TILE_SIZE, TILE_SIZE))  # Redimensionar a 32x32
+        sprites[char] = sprite
+    return sprites
 
 
-for key, path in sprite_map.items():
-    sprite = Image.open(path)
-    sprites[key] = sprite
+def create_background_surface(grid, sprites):
+    background_surface = pygame.Surface((len(grid[0]) * TILE_SIZE, len(grid) * TILE_SIZE))
+    background_surface.fill((0, 0, 0))  # Color de fondo opcional
+
+    for y, row in enumerate(grid):
+        for x, char in enumerate(row):
+            if char in '.':
+                background_surface.blit(sprites['.'], (x * TILE_SIZE, y * TILE_SIZE))
+            elif char in '*':
+                background_surface.blit(sprites['.'], (x * TILE_SIZE, y * TILE_SIZE))
+            elif char in '+':
+                background_surface.blit(sprites['.'], (x * TILE_SIZE, y * TILE_SIZE))
+
+    return background_surface
 
 
-def clean_directories():
-    try:
-        shutil.rmtree("./output/imgs")
-    except FileNotFoundError:
-        print("Directory './output/imgs' does not exist.")
-    except Exception as e:
-        print(f"Failed to remove directory './output/imgs'. Reason: {e}")
+def draw_map(screen, grid, sprites, background_surface):
+    # Primero dibujar la superficie de fondo con los targets y las cajas en objetivos
+    screen.blit(background_surface, (0, 0))
 
-    try:
-        os.makedirs("./output/imgs", exist_ok=True)
-        print("Directory './output/imgs' created successfully.")
-    except Exception as e:
-        print(f"Failed to create directory './output/imgs'. Reason: {e}")
+    # Luego dibujar las paredes y cajas
+    for y, row in enumerate(grid):
+        for x, char in enumerate(row):
+            if char == '#':
+                screen.blit(sprites[char], (x * TILE_SIZE, y * TILE_SIZE))
+            elif char in '$@+*':
+                screen.blit(sprites[char], (x * TILE_SIZE, y * TILE_SIZE))
 
-def sokoban_map_update(soko_map, player, direction, flags):
-    step = (0,0)
-    if direction == "U":
-        step = (-1,0)
-    if direction == "D":
-        step = (1,0)
-    if direction == "R":
-        step = (0,1)
-    if direction == "L":
-        step = (0,-1)
 
-    if Coordinates(player[0], player[1]) not in flags:
-        soko_map[player[0]][player[1]] = ' '
+def move_player(grid, position, direction):
+    x, y = position
+    new_x, new_y = x, y
+
+    if direction == 'R':
+        new_x += 1
+    elif direction == 'L':
+        new_x -= 1
+    elif direction == 'U':
+        new_y -= 1
+    elif direction == 'D':
+        new_y += 1
+
+    target_cell = grid[new_y][new_x]
+
+
+    if target_cell in ' .':
+        grid[y][x] = ' ' if grid[y][x] == '@' else '.'
+        grid[new_y][new_x] = '@'
+        return [new_x, new_y]
+
+    elif target_cell == '$' or target_cell == '*':
+        beyond_x, beyond_y = new_x + (new_x - x), new_y + (new_y - y)
+
+        beyond_cell = grid[beyond_y][beyond_x]
+
+        if beyond_cell in ' .':
+            grid[new_y][new_x] = '@' if target_cell == '$' else '+'
+            grid[beyond_y][beyond_x] = '*' if beyond_cell == '.' else '$'
+
+            grid[y][x] = ' ' if grid[y][x] == '@' else '.'
+
+            return [new_x, new_y]
+
+    return position
+
+
+pygame.init()
+
+with open(f"{sys.argv[1]}", "r") as f:
+    data = json.load(f)
+
+initial_map = data['initial_map'].splitlines()
+solution = data['solution'][0]
+
+max_width = max(len(row) for row in initial_map)
+height = len(initial_map)
+
+# Tamaño de la ventana
+width = max_width * TILE_SIZE
+height = height * TILE_SIZE
+screen = pygame.display.set_mode((width, height))
+
+# Cargar sprites
+sprites = load_sprites()
+
+# Posición inicial del jugador
+player_pos = None
+for y, row in enumerate(initial_map):
+    if '@' in row:
+        player_pos = [row.index('@'), y]
+        break
+    elif '+' in row:
+        player_pos = [row.index('+'), y]
+        break
+
+# Cargar mapa en formato de grid
+grid = []
+for line in initial_map:
+    grid.append(list(line))
+
+# Crear superficie de fondo
+background_surface = create_background_surface(grid, sprites)
+
+# Loop principal
+clock = pygame.time.Clock()
+move_index = 0
+
+running = True
+while running:
+    for event in pygame.event.get():
+        if event.type == QUIT:
+            running = False
+
+    if move_index < len(solution):
+        # Limpiar la pantalla antes de dibujar
+        screen.fill((0, 0, 0))
+
+        # Actualizar la posición del jugador según el movimiento actual
+        player_pos = move_player(grid, player_pos, solution[move_index])
+
+        draw_map(screen, grid, sprites, background_surface)
+        pygame.display.flip()
+
+        # Pasar al siguiente movimiento
+        move_index += 1
+
+        clock.tick(5)
     else:
-        soko_map[player[0]][player[1]] = '.'
+        # Si se han realizado todos los movimientos, mantener la ventana abierta
+        draw_map(screen, grid, sprites, background_surface)
+        pygame.display.flip()
+        clock.tick(5)
 
-    player = (player[0] + step[0], player[1]+step[1])
-
-    if soko_map[player[0]][player[1]] == '$':
-        soko_map[player[0]+step[0]][player[1]+step[1]] = '$'
-
-    soko_map[player[0]][player[1]] = '@'
-
-    return soko_map, player
-
-
-
-
-with open(f"{sys.argv[1]}", "r") as file:
-    result_file = json.load(file)
-    sokoban_map_ini = result_file['initial_map']
-    solution_str = result_file['solution']
-
-    #Filter solution
-    parts = solution_str.split()
-    solution = ''.join(part for part in parts if part != "None")
-
-    #Get the initial map
-    sokoban_map = sokoban_map_ini.split('\n')
-    sokoban_map = [list(row) for row in sokoban_map]
-    player_pos = (0,0)
-
-    #Clean output images directories
-    clean_directories()
-    flags = set()
-
-    # Find the player position
-    for y, row in enumerate(sokoban_map):
-        for x, char in enumerate(row):
-            if char == '*' or char == '.':
-                flags.add(Coordinates(y,x))
-
-    #Find the player position
-    for y, row in enumerate(sokoban_map):
-        for x, char in enumerate(row):
-            if char == '@':
-                player_pos = (y,x)
-
-    #Set the image sizes
-    grid_width = max(len(row) for row in sokoban_map)
-    grid_height = len(sokoban_map)
-    image_width = grid_width * sprite_size
-    image_height = grid_height * sprite_size
-
-    image_counter = 0
-    images_file = []
-    image_str = ''
-
-    for movement in solution:
-        image_counter += 1
-
-        soko_image = Image.new('RGBA', (image_width, image_height))
-
-
-        for y, row in enumerate(sokoban_map):
-            for x, char in enumerate(row):
-                if char in sprites:
-                    sprite = sprites[char]
-                    soko_image.paste(sprite, (x * sprite_size, y * sprite_size, (x+1)* sprite_size, (y+1) * sprite_size))
-
-        image_str = './output/imgs/soko' + str(image_counter) + '.png'
-        soko_image.save(image_str)
-        images_file.append(image_str)
-
-        sokoban_map, player_pos = sokoban_map_update(sokoban_map, player_pos, movement, flags)
-
-
-
-    #Make the GIF
-    images = [Image.open(image) for image in images_file]
-    images[0].save(
-        "./output/solution_animation.gif",
-        format="GIF",
-        append_images=images[1:],
-        save_all=True,
-        duration=7,
-        loop=0,
-        disposal= 2
-    )
+pygame.quit()
