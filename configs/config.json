@@ -1,7 +1,6 @@
 {
-    "full_report":true,
-    "algorithm": "iddfs",
-    "heuristics": ["box_stuck"],
+    "algorithm": "a_star",
+    "heuristics": ["euclidean_non_admissible"],
     "iteration_count": 1,
     "output_file_name":""
 }

@@ -73,19 +73,18 @@ with open(f"{sys.argv[1]}", "r") as file:
             heuristic = None
 
 
-        if config["full_report"]:
-            if last_node:
-                data["status"]="success"
-                data["solution"] = solutions_list
-                data["solution_length"] = solution_length_list
-            else:
-                data["status"]="failure"
-            data["execution_time"] = execution_time_list
-            data["explored_nodes_count"] = explored_nodes_count_list
-            data["frontier_node_counts"] = frontier_node_counts_list
-            data["initial_map"] = sokoban_map.print_grid()
-            data["algorithm"] = config["algorithm"]
-            data["heuristic"] = config["heuristics"]
+        if last_node:
+            data["status"]="success"
+            data["solution"] = solutions_list
+            data["solution_length"] = solution_length_list
+        else:
+            data["status"]="failure"
+        data["execution_time"] = execution_time_list
+        data["explored_nodes_count"] = explored_nodes_count_list
+        data["frontier_node_counts"] = frontier_node_counts_list
+        data["initial_map"] = sokoban_map.print_grid()
+        data["algorithm"] = config["algorithm"]
+        data["heuristic"] = config["heuristics"]
 
         output_file_name = ""
 
