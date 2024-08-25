@@ -1,6 +1,7 @@
 {
-    "algorithm": "a_star",
+    "algorithm": "bfs",
     "heuristics": ["euclidean_non_admissible"],
-    "iteration_count": 1,
-    "output_file_name":""
+    "iteration_count": 4,
+    "output_file_name":"",
+    "iddfs_limit":4
 }

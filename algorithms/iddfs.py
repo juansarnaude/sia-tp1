@@ -3,9 +3,8 @@ from models.Node import Node
 from models.Direction import Direction
 import math
 
-LIMIT = 1
 
-def iddfs(initial_state, map):
+def iddfs(initial_state, map,iddfs_limit):
     index = 0
     frontier = []
     initial_node = Node(initial_state, cost=0)
@@ -30,7 +29,7 @@ def iddfs(initial_state, map):
             if child_state and child_state not in explored:
                 new_node = Node(child_state, node, direction)
                 new_node.set_cost(node.cost+1)
-                frontier[math.ceil(new_node.cost/LIMIT)].append(new_node)
+                frontier[math.ceil(new_node.cost/iddfs_limit)].append(new_node)
 
         if not frontier[index]:
             index+=1
