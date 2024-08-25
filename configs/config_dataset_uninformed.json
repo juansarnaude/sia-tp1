@@ -1,5 +1,6 @@
 {
     "algorithms": ["bfs", "dfs", "iddfs"],
-    "map": "maps/lv7.txt",
-    "iteration_count": 10
+    "map": "maps/lv3.txt",
+    "iteration_count": 1,
+    "iddfs_limit": 1
 }

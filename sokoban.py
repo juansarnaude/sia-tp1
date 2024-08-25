@@ -12,7 +12,7 @@ from heuristics.heuristic import Heuristic
 from models.Map import Map
 from models.State import State
 
-def sokoban(algorithm, heuristics, map_file_name, output_file_name,iteration_count):
+def sokoban(algorithm, heuristics, map_file_name, output_file_name,iteration_count,iddfs_limit=1):
     with open(map_file_name, "r") as file:
         sokoban_map = Map(file) # We load the map when creating the instance
         initial_state = State(sokoban_map.player_start, sokoban_map.boxes)
@@ -23,6 +23,7 @@ def sokoban(algorithm, heuristics, map_file_name, output_file_name,iteration_cou
         execution_time_list= []
         solutions_list = []
         solution_length_list = []
+        iddfs_limit_list=[]
 
 
         for i in range(iteration_count):
@@ -32,7 +33,9 @@ def sokoban(algorithm, heuristics, map_file_name, output_file_name,iteration_cou
             elif algorithm == "dfs":
                 last_node, explored_nodes_count, frontier_node_counts = dfs(initial_state, sokoban_map)
             elif algorithm == "iddfs":
-                last_node, explored_nodes_count, frontier_node_counts = iddfs(initial_state, sokoban_map)
+                iddfs_limit=1 if iddfs_limit<0 else iddfs_limit
+                last_node, explored_nodes_count, frontier_node_counts = iddfs(initial_state, sokoban_map,iddfs_limit)
+                iddfs_limit_list.append(iddfs_limit)
             elif algorithm == "a_star":
                 heuristic = Heuristic(heuristics, sokoban_map)
                 last_node, explored_nodes_count, frontier_node_counts = a_star(initial_state, sokoban_map, heuristic)
@@ -63,6 +66,8 @@ def sokoban(algorithm, heuristics, map_file_name, output_file_name,iteration_cou
                 data["solution_length"] = solution_length_list
             else:
                 data["status"] = "failure"
+            if len(iddfs_limit_list) > 0:
+                data["iddfs_limit"] = iddfs_limit_list
             data["execution_time"] = execution_time_list
             data["explored_nodes_count"] = explored_nodes_count_list
             data["frontier_node_counts"] = frontier_node_counts_list
