@@ -97,7 +97,7 @@ with open(f"{sys.argv[1]}", "r") as file:
             current_time = datetime.now()
             formatted_time = current_time.strftime("%Y-%m-%d_%H-%M-%S")
             level = f"{sys.argv[1]}".split("/")[-1]
-            output_file_name = f"result_"f"{level}_{formatted_time}"
+            output_file_name = f"results/result_"f"{level}_{formatted_time}"
         else:
             output_file_name = config["output_file_name"]
 
