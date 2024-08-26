@@ -31,7 +31,7 @@ def a_star(initial_state: State, game_map: Map, heuristic: Heuristic):
             child_state = current_node.state.move(direction, game_map)
             if child_state and child_state not in explored:
                 # Crea el nodo hijo
-                child_node = Node(child_state, parent=current_node, action=direction, cost=current_node.cost)
+                child_node = Node(child_state, parent=current_node, action=direction, cost=current_node.cost+1)
                 # Aplica la función heurística
                 heuristic.apply(child_node)
                 # Agrega el nodo hijo a la frontera
