@@ -15,7 +15,7 @@ df = pd.DataFrame(
 # Populate the DataFrame with values from the JSON files
 for i, algorithm in enumerate(algorithms):
     for j, heuristic in enumerate(heuristics):
-        with open(f"results/informedVsHeuristics/r{i}{j}.json") as file:
+        with open(f"results/informedVsHeuristics/lv1.txt-{i}{j}.json") as file:
             data = json.load(file)
             df.iloc[i, j] = data['explored_nodes_count'][0]
         
@@ -28,12 +28,12 @@ fig = go.Figure(data=go.Heatmap(
     texttemplate="%{text}",
     textfont={"size":20},
     colorscale='Viridis',  # Choose a colorscale; 'Viridis' is one option
-    colorbar=dict(title='Solution length')  # Colorbar to indicate the scale of values
+    colorbar=dict(title='Explored Node Count')  # Colorbar to indicate the scale of values
 ))
 
 
 fig.update_layout(
-    title='Number of Steps for Solving Sokoban Game',
+    title='Explored Node Count for each Algorithm and Heuristic combination',
     xaxis_title='Heuristics',
     yaxis_title='Algorithms'
 )
