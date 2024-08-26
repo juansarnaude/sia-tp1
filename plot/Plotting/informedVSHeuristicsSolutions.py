@@ -15,7 +15,7 @@ df = pd.DataFrame(
 # Populate the DataFrame with values from the JSON files
 for i, algorithm in enumerate(algorithms):
     for j, heuristic in enumerate(heuristics):
-        with open(f"results/informedVsHeuristics/r{i}{j}.json") as file:
+        with open(f"results/informedVsHeuristics/lv1.txt-{i}{j}.json") as file:
             data = json.load(file)
             df.iloc[i, j] = data['solution_length'][0]
         

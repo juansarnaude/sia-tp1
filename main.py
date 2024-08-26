@@ -102,6 +102,6 @@ with open(f"{sys.argv[1]}", "r") as file:
             output_file_name = config["output_file_name"]
 
 
-        with open(f"results/{output_file_name}.json", 'w') as result_file:
+        with open(output_file_name, 'w') as result_file:
             json.dump(data, result_file, indent=5)
 

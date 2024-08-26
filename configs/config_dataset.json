@@ -1,6 +1,6 @@
 {
     "algorithms": ["local_greedy", "global_greedy", "a_star"],
     "heuristics": ["euclidean", "manhattan", "boxes_in_goals", "euclidean_non_admissible", "manhattan_non_admissible"],
-    "map": "maps/lv5.txt",
+    "map": "maps/lv1.txt",
     "iteration_count": 4
 }
