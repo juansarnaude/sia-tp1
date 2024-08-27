@@ -1,7 +1,7 @@
 {
-    "algorithm": "iddfs",
-    "heuristics": ["euclidean_non_admissible"],
-    "iteration_count": 4,
-    "output_file_name":"results/uninformed/lv1.txt-2.json",
+    "algorithm": "bfs",
+    "heuristics": [],
+    "iteration_count": 1,
+    "output_file_name":"results/uninformed/lv1-test2.json",
     "iddfs_limit":40
 }
