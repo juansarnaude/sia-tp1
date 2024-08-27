@@ -32,7 +32,7 @@ with open("configs/config_dataset_uninformed.json", 'r') as file:
         "Algorithm": algorithms,
         "Execution Time": mean_execution_time,
     })
-    fig1 = px.bar(df1, x="Algorithm", y="Execution Time", color="Algorithm", title=f"Execution Time Across Uninformed Algorithms- Level {map.split('/')[1].split('.')[0]}" ,error_y=std_execution_time)
+    fig1 = px.bar(df1, x="Algorithm", y="Execution Time", color="Algorithm", title=f"Execution Time Across Uninformed Algorithms- Level {map.split('/')[1].split('.')[0]}" ,error_y=std_execution_time,text_auto=True)
     
     # Update layout for bigger font sizes
     fig1.update_layout(
@@ -61,7 +61,7 @@ with open("configs/config_dataset_uninformed.json", 'r') as file:
         "Algorithm": algorithms,
         "Steps to solution": every_solution_length,
     })
-    fig2 = px.bar(df2, x="Algorithm", y="Steps to solution", color="Algorithm", title=f"Optimality of Solutions Across Uninformed Algorithms - Level {map.split('/')[1].split('.')[0]}")
+    fig2 = px.bar(df2, x="Algorithm", y="Steps to solution", color="Algorithm", title=f"Optimality of Solutions Across Uninformed Algorithms - Level {map.split('/')[1].split('.')[0]}",text_auto=True)
     
     # Update layout for bigger font sizes
     fig2.update_layout(
@@ -90,7 +90,7 @@ with open("configs/config_dataset_uninformed.json", 'r') as file:
         "Algorithm": algorithms,
         "Explored nodes count": every_explored_nodes_count,
     })
-    fig3 = px.bar(df3, x="Algorithm", y="Explored nodes count", color="Algorithm", title=f"Explored Nodes Count Across Uninformed Algorithms - Level {map.split('/')[1].split('.')[0]}")
+    fig3 = px.bar(df3, x="Algorithm", y="Explored nodes count", color="Algorithm", title=f"Explored Nodes Count Across Uninformed Algorithms - Level {map.split('/')[1].split('.')[0]}",text_auto=True)
     
     # Update layout for bigger font sizes
     fig3.update_layout(
