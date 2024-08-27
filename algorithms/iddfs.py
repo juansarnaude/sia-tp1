@@ -12,6 +12,8 @@ def iddfs(initial_state, map,iddfs_limit):
     frontier.append(deque())
     explored = set()
 
+    discarted_count = 0
+
     while frontier[index]:
         node = frontier[index].pop()
 
@@ -19,7 +21,7 @@ def iddfs(initial_state, map,iddfs_limit):
         if node.state.is_goal_state(map):
         #    for i in range(index):
         #        print(len(frontier[i]))
-           return node,len(explored),len(frontier[index])
+            return node,len(explored),len(frontier[index]), discarted_count
 
         explored.add(node.state)
 
@@ -30,6 +32,8 @@ def iddfs(initial_state, map,iddfs_limit):
                 new_node = Node(child_state, node, direction)
                 new_node.set_cost(node.cost+1)
                 frontier[math.ceil(new_node.cost/iddfs_limit)].append(new_node)
+            if child_state and child_state in explored:
+                discarted_count += 1
 
         if not frontier[index]:
             index+=1
@@ -38,5 +42,5 @@ def iddfs(initial_state, map,iddfs_limit):
     
     index-=1
     # Return None if no solution is found
-    return None, len(explored), len(frontier)
+    return None, len(explored), len(frontier), discarted_count
 

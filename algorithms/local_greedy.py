@@ -8,12 +8,14 @@ def local_greedy(initial_state, map, heuristics):
     frontier = deque([Node(initial_state)])
     explored = set()
 
+    discarted_count = 0
+
     while frontier:
         node = frontier.pop()
 
         # Check if we have reached the goal state
         if node.state.is_goal_state(map):
-            return node, len(explored), len(frontier)
+            return node, len(explored), len(frontier), discarted_count
 
         explored.add(node.state)
 
@@ -25,6 +27,8 @@ def local_greedy(initial_state, map, heuristics):
                 new_node = Node(child_state, node, direction)
                 heuristics.apply(new_node)
                 inner_frontier.put((new_node.cost, new_node))
+            if child_state and child_state in explored:
+                discarted_count += 1
         
         #Add elements ordered by cost
         while not inner_frontier.empty():
@@ -32,4 +36,4 @@ def local_greedy(initial_state, map, heuristics):
             frontier.append(aux_node)
 
     # Return None if no solution is found
-    return None, len(explored), len(frontier)
+    return None, len(explored), len(frontier), discarted_count

@@ -19,11 +19,13 @@ def a_star(initial_state: State, game_map: Map, heuristic: Heuristic):
     # Agrega el nodo inicial a la frontera
     frontier.put((start_node.cost, start_node))
 
+    discarted_count = 0
+
     while not frontier.empty():
         _, current_node = frontier.get()
 
         if current_node.state.is_goal_state(game_map):
-            return current_node, len(explored), frontier.qsize()
+            return current_node, len(explored), frontier.qsize(), discarted_count
 
         explored.add(current_node.state)
 
@@ -36,5 +38,7 @@ def a_star(initial_state: State, game_map: Map, heuristic: Heuristic):
                 heuristic.apply(child_node)
                 # Agrega el nodo hijo a la frontera
                 frontier.put((child_node.cost, child_node))
+            if child_state and child_state in explored:
+                discarted_count += 1
 
-    return None, len(explored), frontier.qsize()
+    return None, len(explored), frontier.qsize(), discarted_count

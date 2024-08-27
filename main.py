@@ -28,6 +28,7 @@ with open(f"{sys.argv[1]}", "r") as file:
         results_list = []
         explored_nodes_count_list =[]
         frontier_node_counts_list = []
+        discarted_count_list = []
         execution_time_list= []
         solutions_list = []
         solution_length_list = []
@@ -39,22 +40,22 @@ with open(f"{sys.argv[1]}", "r") as file:
             start_time = time.time()
 
             if config["algorithm"] == "bfs":
-                last_node, explored_nodes_count, frontier_node_counts = bfs(initial_state, sokoban_map)
+                last_node, explored_nodes_count, frontier_node_counts, discarted_count_list = bfs(initial_state, sokoban_map)
             elif config["algorithm"] == "dfs":
-                last_node, explored_nodes_count, frontier_node_counts = dfs(initial_state, sokoban_map)
+                last_node, explored_nodes_count, frontier_node_counts, discarted_count_list = dfs(initial_state, sokoban_map)
             elif config["algorithm"] == "iddfs":
                 iddfs_limit=1 if config["iddfs_limit"]<0 else config["iddfs_limit"]
-                last_node, explored_nodes_count, frontier_node_counts = iddfs(initial_state, sokoban_map,iddfs_limit)
+                last_node, explored_nodes_count, frontier_node_counts, discarted_count_list = iddfs(initial_state, sokoban_map,iddfs_limit)
                 iddfs_limit_list.append(iddfs_limit)
             elif config["algorithm"] == "a_star":
                 heuristic = Heuristic(config["heuristics"], sokoban_map)
-                last_node, explored_nodes_count, frontier_node_counts = a_star(initial_state, sokoban_map, heuristic)
+                last_node, explored_nodes_count, frontier_node_counts, discarted_count_list = a_star(initial_state, sokoban_map, heuristic)
             elif config["algorithm"] == "local_greedy":
                 heuristic = Heuristic(config["heuristics"], sokoban_map)
-                last_node, explored_nodes_count, frontier_node_counts = local_greedy(initial_state, sokoban_map, heuristic)
+                last_node, explored_nodes_count, frontier_node_counts, discarted_count_list = local_greedy(initial_state, sokoban_map, heuristic)
             elif config["algorithm"] == "global_greedy":
                 heuristic = Heuristic(config["heuristics"], sokoban_map)
-                last_node, explored_nodes_count, frontier_node_counts = global_greedy(initial_state, sokoban_map, heuristic)
+                last_node, explored_nodes_count, frontier_node_counts, discarted_count_list = global_greedy(initial_state, sokoban_map, heuristic)
 
             end_time = time.time()
             elapsed_time = end_time - start_time
@@ -90,6 +91,7 @@ with open(f"{sys.argv[1]}", "r") as file:
         data["initial_map"] = sokoban_map.print_grid()
         data["algorithm"] = config["algorithm"]
         data["heuristic"] = config["heuristics"]
+        data["discarted_nodes_count"] = discarted_count_list
 
         output_file_name = ""
 
