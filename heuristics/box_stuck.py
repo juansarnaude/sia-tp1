@@ -27,16 +27,16 @@ class MapWithMarkedStuckPoints(Map):
         self.expand_limited()
 
         # Visualization of stuck points
-        for coord in self.stuck_points:
-            x, y = coord.x, coord.y
-            self.grid[y][x] = '%'
+        # for coord in self.stuck_points:
+        #     x, y = coord.x, coord.y
+        #     self.grid[y][x] = '%'
+        #
+        # map_string = ''
+        # for row in self.grid:
+        #     map_string += ''.join(row)
+        #     map_string += '\n'
 
-        map_string = ''
-        for row in self.grid:
-            map_string += ''.join(row)
-            map_string += '\n'
-
-        print(map_string)
+        # print(map_string)
 
     # Just limit the corners because boxes get stuck there
     def limit_corners(self):
