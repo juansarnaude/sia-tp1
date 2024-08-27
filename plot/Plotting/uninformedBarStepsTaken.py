@@ -36,7 +36,8 @@ for algo in algorithms:
     fig.add_trace(go.Bar(
         x=levels,
         y=[solution_lengths[level][algo] for level in levels],
-        name=algo
+        name=algo, 
+        text_auto=True
     ))
 
 # Configuramos el diseño del gráfico

@@ -124,4 +124,18 @@ Donde <span style="color:orange">result_file_path</span> será un archivo de res
 ## Experimentos y análisis de datos
 En el directorio 'plot' encontrará todo lo necesario para realizar los experimentos y para evaluar los resultados. Dentro de este existen otros dos directorios llamados 'DataSetGenerators', para generar los archivos de resultados, y 'Plotting', donde se encuentran los archivos de python que generan los gráficos
 
+### Ejecución de análisis
+
+Los Archivos en ambos directorios cuentan con nombres similares por simplicidad.\
+Para evaluar generar los data sets debemos ejecutar:
+```bash
+python -m plot.DataSetGenerators.[experimento.py]
+```
+Donde [experimento.py] es uno de los archivos en el directorio '/plot/DataSetGenerators/'
+
+Para generar los gráficos debemos ejecutar:
+```bash
+python -m plot.Plotting.[experimento.py]
+```
+Donde [experimento.py] es uno de los archivos en el directorio '/plot/Plotting/'
 
