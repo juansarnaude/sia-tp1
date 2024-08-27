@@ -12,10 +12,16 @@ df = pd.DataFrame(
     columns=heuristics
 )
 
+with open("configs/config_dataset.json", 'r') as file:
+    config = json.load(file)
+    heuristics = config["heuristics"]
+    algorithms = config["algorithms"]
+    map_name = config["map"].split('/')[-1].split('.')[0]  # Extraer el nombre del nivel dinámicamente
+
 # Populate the DataFrame with values from the JSON files
 for i, algorithm in enumerate(algorithms):
     for j, heuristic in enumerate(heuristics):
-        with open(f"results/informedVsHeuristics/lv1.txt-{i}{j}.json") as file:
+        with open(f"results/informedVsHeuristics/{map_name}.txt-{i}{j}.json") as file:
             data = json.load(file)
             df.iloc[i, j] = data['explored_nodes_count'][0]
         
