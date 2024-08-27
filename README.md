@@ -5,7 +5,7 @@
 Gastón Alasia, 61413\
 Juan Segundo Arnaude, 62184\
 Bautista Canevaro, 62179\
-Matías Wodtke, 62098\
+Matías Wodtke, 62098
 
 # Sokoban
 
@@ -99,50 +99,6 @@ El output de la ejecuccion sera un archivo JSON con los siguientes valores de sa
 * "initial_map": representacion del mapa de Sokoban utilizado.
 * "algorithm": algoritmo utilizado.
 * "heuristics": lista de la heuristicas utilizadas.
-
-### Ejemplo de salida
-Para el archivo de configuración explicitado la salida es el siguiente archivo JSON
-```json
-{
-     "status": "success",
-     "solution": [
-          "RRR",
-          "RRR",
-          "RRR"
-     ],
-     "solution_length": [
-          3,
-          3,
-          3
-     ],
-     "iddfs_limit": [
-          2,
-          2,
-          2
-     ],
-     "execution_time": [
-          4.744529724121094e-05,
-          2.8371810913085938e-05,
-          2.6226043701171875e-05
-     ],
-     "explored_nodes_count": [
-          3,
-          3,
-          3
-     ],
-     "frontier_node_counts": [
-          1,
-          1,
-          1
-     ],
-     "initial_map": "#######\n#@ $ .#\n#######\n",
-     "algorithm": "iddfs",
-     "heuristic": [
-          "euclidean_non_admissible",
-          "box_stuck"
-     ]
-}
-```
 
 ## Estructura de representación de mapas
 
