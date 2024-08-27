@@ -6,13 +6,14 @@ def local_greedy(initial_state, map, heuristics):
     frontier = deque([Node(initial_state)])
     explored = set()
     discarded_count = 0
-    unexplored_children = deque()  # Use deque for efficient popleft operation
+    unexplored_children = []
 
     while frontier or unexplored_children:
         if not frontier:
             # Backtrack to the most recent unexplored children
-            frontier.extend(unexplored_children)
-            unexplored_children.clear()  # Clear the list after extending frontier
+            unexplored_children.sort(key=lambda x: x.cost)
+            frontier.append(unexplored_children[0])
+            unexplored_children.remove(unexplored_children[0])
 
         node = frontier.pop()
 
