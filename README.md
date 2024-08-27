@@ -99,6 +99,7 @@ El output de la ejecuccion sera un archivo JSON con los siguientes valores de sa
 * "initial_map": representacion del mapa de Sokoban utilizado.
 * "algorithm": algoritmo utilizado.
 * "heuristics": lista de la heuristicas utilizadas.
+* "discarted_nodes_count": lista de nodos que se crearon pero no se agreagaron al conjunto de nodos fronteras ya que ya habia un nodo igual en el conjunto de nodos frontera.
 
 ### Ejemplo de salida
 Para el archivo de configuración explicitado la salida es el siguiente archivo JSON
