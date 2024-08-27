@@ -139,3 +139,4 @@ python -m plot.Plotting.[experimento.py]
 ```
 Donde [experimento.py] es uno de los archivos en el directorio '/plot/Plotting/'
 
+<span style="color:red">Nótese que en el directorio '/configs' encontrará los distintos archivos de configuración cada uno con el nombre correspondiende a su respectivo experimento para que pueda refinar los parámetros del mismo</span>.
