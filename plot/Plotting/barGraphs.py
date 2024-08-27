@@ -31,7 +31,7 @@ with open("configs/config_dataset.json", 'r') as file:
             "Heuristic": heuristics,
             "Execution Time": mean_execution_time,
         })
-        fig1 = px.bar(df1, x="Heuristic", y="Execution Time", color="Heuristic", title=algorithms[i],error_y=std_execution_time)
+        fig1 = px.bar(df1, x="Heuristic", y="Execution Time", color="Heuristic", title=algorithms[i],error_y=std_execution_time, text_auto=True)
         fig1.show()
         mean_execution_time.clear()
         std_execution_time.clear()
@@ -39,7 +39,7 @@ with open("configs/config_dataset.json", 'r') as file:
             "Heuristic": heuristics,
             "Number of Steps": every_solution_length,
         })
-        fig2 = px.bar(df2, x="Heuristic", y="Number of Steps", color="Heuristic", title=f"Cantidad de pasos en {algorithms[i]}")
+        fig2 = px.bar(df2, x="Heuristic", y="Number of Steps", color="Heuristic", title=f"Cantidad de pasos en {algorithms[i]}", text_auto=True)
         fig2.show()
         every_solution_length.clear()
 
