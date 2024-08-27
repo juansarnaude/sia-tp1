@@ -26,10 +26,10 @@ def local_greedy(initial_state, map, heuristics):
             if child_state and child_state not in explored:
                 new_node = Node(child_state, node, direction)
                 heuristics.apply(new_node)
-                inner_frontier.put((new_node.cost, new_node))
+                inner_frontier.put((-new_node.cost, new_node))
             if child_state and child_state in explored:
                 discarted_count += 1
-        
+
         #Add elements ordered by cost
         while not inner_frontier.empty():
             _, aux_node = inner_frontier.get()

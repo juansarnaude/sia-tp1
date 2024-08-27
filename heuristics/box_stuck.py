@@ -25,15 +25,18 @@ class MapWithMarkedStuckPoints(Map):
         self.limit_corners()
 
         self.expand_limited()
-        #Visualization of stuck points
-        # for coord in self.stuck_points:
-        #     x, y = coord.x, coord.y
-        #     self.grid[y][x] = '%'
-        #
-        # map_string = ''
-        # for row in self.grid:
-        #     map_string += ''.join(row)
-        #     map_string += '\n'
+
+        # Visualization of stuck points
+        for coord in self.stuck_points:
+            x, y = coord.x, coord.y
+            self.grid[y][x] = '%'
+
+        map_string = ''
+        for row in self.grid:
+            map_string += ''.join(row)
+            map_string += '\n'
+
+        print(map_string)
 
     # Just limit the corners because boxes get stuck there
     def limit_corners(self):
@@ -105,7 +108,6 @@ class MapWithMarkedStuckPoints(Map):
                             except IndexError:
                                 pass
 
-            explored_stuck_points.add(stuck_point_1)
 
 
     # Check if the line between points has a wall by the side constantly

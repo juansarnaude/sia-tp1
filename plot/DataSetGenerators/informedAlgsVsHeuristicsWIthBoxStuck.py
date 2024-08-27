@@ -1,6 +1,4 @@
-import pandas as pd
 import json
-import plotly.graph_objects as go
 
 from sokoban import sokoban
 
