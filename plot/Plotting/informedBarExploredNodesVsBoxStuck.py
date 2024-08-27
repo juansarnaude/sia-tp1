@@ -47,6 +47,7 @@ for algorithm in algorithms:
         y="Explored Nodes",
         color="Box Stuck",
         barmode='group',
+        text_auto=True,
         title=f"Explored Nodes by Informed Algorithms per Heuristic using box_stuck in {algorithm} - Level {map_name}",
         labels={"Heuristic": "Heuristic", "Explored Nodes": "Explored Nodes", "Box Stuck": "Configuration"}
     )
